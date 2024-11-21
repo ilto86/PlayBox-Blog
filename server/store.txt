@@ -1,0 +1,59 @@
+,
+    "e5053727-9ed0-4de6-b06a-ced7593a25df": {
+        "consoleName": "PlayStation®4",
+        "manufacturer": "Sony",
+        "releaseDate": "2016-09-10",
+        "storageCapacity": "500 GB",
+        "color": "Black",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Sony-PlayStation-4-PS4-wDualShock-4.jpg/330px-Sony-PlayStation-4-PS4-wDualShock-4.jpg",
+        "price": "499.99",
+        "_id": "e5053727-9ed0-4de6-b06a-ced7593a25df"
+    },
+    "0e11c746-a39f-4ce0-89a3-ae07f52852e0": {
+        "consoleName": "PlayStation®3",
+        "manufacturer": "SONY",
+        "releaseDate": "2004-09-12",
+        "storageCapacity": "256 GB",
+        "color": "Violet",
+        "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0-PRM6fcrBR3yqXzILwNI-P4kjl_BHiZ8CA&usqp=CAU",
+        "price": "259.99",
+        "_id": "0e11c746-a39f-4ce0-89a3-ae07f52852e0"
+    },
+    "8a2416db-32df-404f-9556-1ce114a12346": {
+        "consoleName": "Sega Dreamcast ",
+        "manufacturer": "Sega",
+        "releaseDate": "1998-11-27",
+        "storageCapacity": "1 GB",
+        "color": "White and Grey",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Dreamcast-Console-Set.jpg/330px-Dreamcast-Console-Set.jpg",
+        "price": "199.99",
+        "_id": "8a2416db-32df-404f-9556-1ce114a12346"
+    }
+
+
+    https://d1lss44hh2trtw.cloudfront.net/assets/article/2020/06/11/ps5-console_feature.png
+    https://assets1.ignimgs.com/2020/06/11/ps5-design-digital-edition-1591910583395_160w.png?width=1280
+
+
+
+
+    {
+    "email": "peter@abv.bg",
+    "username": "Peter",
+    "_id": "35c62d76-8152-4626-8712-eeb96381bea8",
+    "accessToken": "a386f66a1b966be20e04cae5dee8c9b1d3d7ff743a27ab816e0883ea48d3c668"
+}
+
+{
+    "email": "george@abv.bg",
+    "username": "George",
+    "_id": "847ec027-f659-4086-8032-5173e2f9c93a",
+    "accessToken": "11fb6e5205e272b38fed1c7707e6c08b7a89eeb8be664b99b6c90e04a653baca"
+}
+
+{
+    "email": "admin@abv.bg",
+    "username": "Admin",
+    "_id": "60f0cf0b-34b0-4abd-9769-8c42f830dffc",
+    "accessToken": "aac8d774069811123c7e837268fd0fb573e7f1ec3fc1157349b4e8a4a1d22605"
+}

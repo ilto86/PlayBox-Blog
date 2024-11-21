@@ -1,0 +1,34 @@
+{
+    "4ece10f7-323a-4469-8502-b0a11b088c51": {
+        "consoleName": "Nintendo Famicom",
+        "manufacturer": "Nintento",
+        "releaseDate": "1983-07-17",
+        "storageCapacity": "8 KB",
+        "color": "Pearl Ruby Red and Gray",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Nintendo-Famicom-Console-FL.jpg/1071px-Nintendo-Famicom-Console-FL.jpg",
+        "price": "150",
+        "_id": "4ece10f7-323a-4469-8502-b0a11b088c51"
+    },
+    "71d7f260-97c6-49a5-b642-8f6b62fc51f9": {
+        "consoleName": "PlayStation®5",
+        "manufacturer": "SONY",
+        "releaseDate": "2020-09-12",
+        "storageCapacity": "1 TB",
+        "color": "White",
+        "imageUrl": "https://assets1.ignimgs.com/2020/06/11/ps5-design-digital-edition-1591910583395_160w.png?width=1280",
+        "price": "429",
+        "_id": "71d7f260-97c6-49a5-b642-8f6b62fc51f9"
+    },
+    "da5632c4-672d-46e8-a6b1-2e6eebc60d63": {
+        "consoleName": "Nintendo NES",
+        "manufacturer": "Nintendo",
+        "releaseDate": "2003-02-12",
+        "storageCapacity": "16 MB",
+        "color": "Vintage Grey",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/NES-Console-Set.jpg/330px-NES-Console-Set.jpg",
+        "price": "179.99",
+        "_id": "da5632c4-672d-46e8-a6b1-2e6eebc60d63"
+    }
+}
+
+
