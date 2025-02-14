@@ -4,6 +4,12 @@ import styles from './Header.module.css';
 export default function Header() {
     return (
         <header className={styles.header}>
+            <div className={styles.logo}>
+                <Link to="/">
+                    <i className="fas fa-gamepad"></i>
+                    <span>PlayBox</span>
+                </Link>
+            </div>
             <nav>
                 <Link to="/">Home</Link>
                 <Link to="/consoles">Consoles</Link>
@@ -13,38 +19,4 @@ export default function Header() {
             </nav>
         </header>
     );
-} 
-
-
-// import { Link } from 'react-router-dom';
-// import './Header.module.css';
-
-// export default function Header() {
-//     return (
-//         <header className="header">
-//             <nav>
-//                 <Link to="/">Home</Link>
-//                 <Link to="/consoles">Consoles</Link>
-//                 <Link to="/consoles/create">Add Console</Link>
-//             </nav>
-//         </header>
-//     );
-// }
-
-
-
-
-
-// import { Link } from 'react-router-dom';
-
-// export default function Header() {
-//     return (
-//         <header>
-//             <nav>
-//                 <Link to="/">Home</Link>
-//                 <Link to="/consoles">Consoles</Link>
-//                 <Link to="/consoles/create">Add Console</Link>
-//             </nav>
-//         </header>
-//     );
-// }
+}
