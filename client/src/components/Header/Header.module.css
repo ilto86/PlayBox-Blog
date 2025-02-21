@@ -43,3 +43,24 @@
     color: #3498db;
     transition: color 0.3s ease;
 }
+
+.username {
+    color: #3498db;
+    font-weight: bold;
+    margin-right: 1rem;
+}
+
+.logoutBtn {
+    background: none;
+    border: none;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0;
+}
+
+.logoutBtn:hover {
+    color: #3498db;
+    transition: color 0.3s ease;
+}
