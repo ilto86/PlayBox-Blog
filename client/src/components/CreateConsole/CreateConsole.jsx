@@ -127,55 +127,111 @@
 
 
 
-
-
 import { useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../../context/authContext';
 import * as consoleService from '../../services/consoleService';
+import { useForm } from '../../hooks/useForm';
 import styles from './CreateConsole.module.css';
 
 export default function CreateConsole() {
     const navigate = useNavigate();
-
-    const createConsoleSubmitHandler = async (e) => {
-        e.preventDefault();
-
-        const consoleData = Object.fromEntries(new FormData(e.currentTarget));
-
+    const { userId } = useAuthContext();
+    
+    const { values, onChange, onSubmit } = useForm({
+        consoleName: '',
+        manufacturer: '',
+        storageCapacity: '',
+        color: '',
+        releaseDate: '',
+        price: '',
+        imageUrl: ''
+    }, async (formData) => {
         try {
-            await consoleService.create(consoleData);
-
+            await consoleService.create({
+                ...formData,
+                _ownerId: userId
+            });
+            
             navigate('/consoles');
         } catch (err) {
-            // Error notification
-            console.log(err);
+            console.log('Create error:', err);
         }
-    };
+    });
 
     return (
         <section className={styles.create}>
-            <form id="create" onSubmit={createConsoleSubmitHandler}>
+            <form id="create" onSubmit={onSubmit}>
                 <div className={styles.container}>
                     <h1>Create Console</h1>
-                    <label htmlFor="name">Console name:</label>
-                    <input type="text" id="name" name="name" placeholder="Enter console name..." />
+                    <label htmlFor="consoleName">Console name:</label>
+                    <input 
+                        type="text" 
+                        id="consoleName" 
+                        name="consoleName" 
+                        value={values.consoleName}
+                        onChange={onChange}
+                        placeholder="Enter console name..." 
+                    />
 
                     <label htmlFor="manufacturer">Manufacturer:</label>
-                    <input type="text" id="manufacturer" name="manufacturer" placeholder="Enter manufacturer..." />
+                    <input 
+                        type="text" 
+                        id="manufacturer" 
+                        name="manufacturer" 
+                        value={values.manufacturer}
+                        onChange={onChange}
+                        placeholder="Enter manufacturer..." 
+                    />
 
                     <label htmlFor="storageCapacity">Storage Capacity:</label>
-                    <input type="text" id="storageCapacity" name="storageCapacity" placeholder="Enter storage capacity..." />
+                    <input 
+                        type="text" 
+                        id="storageCapacity" 
+                        name="storageCapacity" 
+                        value={values.storageCapacity}
+                        onChange={onChange}
+                        placeholder="Enter storage capacity..." 
+                    />
 
                     <label htmlFor="color">Color:</label>
-                    <input type="text" id="color" name="color" placeholder="Enter color..." />
+                    <input 
+                        type="text" 
+                        id="color" 
+                        name="color" 
+                        value={values.color}
+                        onChange={onChange}
+                        placeholder="Enter color..." 
+                    />
 
                     <label htmlFor="releaseDate">Release Date:</label>
-                    <input type="text" id="releaseDate" name="releaseDate" placeholder="Enter release date..." />
+                    <input 
+                        type="text" 
+                        id="releaseDate" 
+                        name="releaseDate" 
+                        value={values.releaseDate}
+                        onChange={onChange}
+                        placeholder="Enter release date..." 
+                    />
 
                     <label htmlFor="price">Price:</label>
-                    <input type="number" id="price" name="price" placeholder="Enter price..." />
+                    <input 
+                        type="number" 
+                        id="price" 
+                        name="price" 
+                        value={values.price}
+                        onChange={onChange}
+                        placeholder="Enter price..." 
+                    />
 
                     <label htmlFor="imageUrl">Image:</label>
-                    <input type="text" id="imageUrl" name="imageUrl" placeholder="Upload a photo..." />
+                    <input 
+                        type="text" 
+                        id="imageUrl" 
+                        name="imageUrl" 
+                        value={values.imageUrl}
+                        onChange={onChange}
+                        placeholder="Upload a photo..." 
+                    />
 
                     <input className={styles.btnSubmit} type="submit" value="Create Console" />
                 </div>

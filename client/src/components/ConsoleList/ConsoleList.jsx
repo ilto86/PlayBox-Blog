@@ -44,6 +44,7 @@
 import { useEffect, useState } from 'react';
 import * as consoleService from '../../services/consoleService';
 import styles from './ConsoleList.module.css';
+import { Link } from 'react-router-dom';
 
 export default function ConsoleList() {
     const [consoles, setConsoles] = useState([]);
@@ -61,10 +62,15 @@ export default function ConsoleList() {
             {consoles.map(console => (
                 <div key={console._id} className={styles.allConsoles}>
                     <div className={styles.allConsolesInfo}>
-                        <img src={console.imageUrl} />
-                        <h6>{console.name}</h6>
+                        <img src={console.imageUrl} alt={console.consoleName} />
+                        <h6>{console.consoleName}</h6>
                         <h2>{console.manufacturer}</h2>
-                        <a href={`/consoles/${console._id}`} className={styles.detailsButton}>Details</a>
+                        <Link 
+                            to={`/consoles/${console._id}`} 
+                            className={styles.detailsButton}
+                        >
+                            Details
+                        </Link>
                     </div>
                 </div>
             ))}
