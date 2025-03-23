@@ -22,22 +22,39 @@ const buildOptions = (data) => {
 };
 
 const request = async (method, url, data) => {
-    const response = await fetch(url, {
-        ...buildOptions(data),
-        method,
-    });
+    try {
+        const response = await fetch(url, {
+            ...buildOptions(data),
+            method,
+        });
 
-    if (response.status === 204) {
-        return {};
+        // Тук ако получа грешка 403 или сървърът е недостъпен, изчиствам authorization данните:
+        if (response.status === 403) {
+            localStorage.removeItem('authorization');
+            localStorage.removeItem('accessToken');
+            window.location.reload(); // Тук презареждам страницата
+            return;
+        }
+
+        if (response.status === 204) {
+            return {};
+        }
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw result;
+        }
+
+        return result;
+    } catch (error) {
+        if (!window.navigator.onLine) {
+            // Тук ако нямам интернет връзка, изчиствам authorization данните:
+            localStorage.removeItem('auth');
+            localStorage.removeItem('accessToken');
+        }
+        throw error;
     }
-
-    const result = await response.json();
-
-    if (!response.ok) {
-        throw result;
-    }
-
-    return result;
 };
 
 export const get = request.bind(null, 'GET');
