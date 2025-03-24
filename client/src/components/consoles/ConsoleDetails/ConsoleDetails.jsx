@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useAuthContext } from '../../context/authContext';
-import * as consoleService from '../../services/consoleService';
-import Modal from '../Modal/Modal';
-import ErrorBox from '../ErrorBox/ErrorBox';
+import { useAuthContext } from '../../../context/authContext';
+import * as consoleService from '../../../services/consoleService';
+import Modal from '../../common/Modal/Modal';
+import ErrorBox from '../../common/ErrorBox/ErrorBox';
+import Spinner from '../../common/Spinner/Spinner';
 import styles from './ConsoleDetails.module.css';
 
 export default function ConsoleDetails() {
@@ -12,10 +13,12 @@ export default function ConsoleDetails() {
     const navigate = useNavigate();
     const [currentConsole, setCurrentConsole] = useState({});
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [isDeleting, setIsDeleting] = useState(false);
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        setIsLoading(true);
         consoleService.getOne(consoleId)
             .then(result => {
                 setCurrentConsole(result);
@@ -23,7 +26,8 @@ export default function ConsoleDetails() {
             .catch(err => {
                 console.log('Error fetching console:', err);
                 navigate('/consoles');
-            });
+            })
+            .finally(() => setIsLoading(false));
     }, [consoleId, navigate]);
 
     const isOwner = userId === currentConsole._ownerId;
@@ -45,6 +49,10 @@ export default function ConsoleDetails() {
             setShowDeleteModal(false);
         }
     };
+
+    if (isLoading) {
+        return <Spinner />;
+    }
 
     return (
         <>

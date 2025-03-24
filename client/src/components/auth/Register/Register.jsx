@@ -1,43 +1,56 @@
-import { useAuthContext } from '../../context/authContext';
-import { useForm } from '../../hooks/useForm';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../../../context/authContext';
+import { useForm } from '../../../hooks/useForm';
+import Spinner from '../../common/Spinner/Spinner';
+import ErrorBox from '../../common/ErrorBox/ErrorBox';
 import styles from './Register.module.css';
 import { Link } from 'react-router-dom';
 
 export default function Register() {
+    const navigate = useNavigate();
+    const [isRegistering, setIsRegistering] = useState(false);
     const { registerSubmitHandler, error } = useAuthContext();
+    
     const { values, onChange, onSubmit } = useForm({
         email: '',
         password: '',
         confirmPassword: '',
     }, async (values) => {
         if (values.password !== values.confirmPassword) {
-            // Можем да добавим error handling тук
+            setError('Passwords do not match!');
             return;
         }
 
         try {
+            setIsRegistering(true);
             await registerSubmitHandler(values);
-        } catch (error) {
-            console.error('Form submission error:', error);
+            navigate('/');
+        } catch (err) {
+            console.error('Registration error:', err);
+        } finally {
+            setIsRegistering(false);
         }
     });
 
     return (
         <section className={styles.register}>
+            {error && <ErrorBox error={error} onClose={() => setError(null)} />}
+            {isRegistering && <Spinner />}
+            
             <form onSubmit={onSubmit}>
                 <div className={styles.container}>
                     <h1>Register</h1>
-                    
-                    {error && <p className={styles.error}>{error}</p>}
 
                     <label htmlFor="email">Email:</label>
                     <input
                         type="email"
                         id="email"
                         name="email"
-                        onChange={onChange}
                         value={values.email}
-                        placeholder="peter@abv.bg"
+                        onChange={onChange}
+                        placeholder="user@mail.com"
+                        disabled={isRegistering}
                     />
 
                     <label htmlFor="password">Password:</label>
@@ -45,9 +58,10 @@ export default function Register() {
                         type="password"
                         id="password"
                         name="password"
-                        onChange={onChange}
                         value={values.password}
+                        onChange={onChange}
                         placeholder="********"
+                        disabled={isRegistering}
                     />
 
                     <label htmlFor="confirmPassword">Confirm Password:</label>
@@ -55,12 +69,18 @@ export default function Register() {
                         type="password"
                         id="confirmPassword"
                         name="confirmPassword"
-                        onChange={onChange}
                         value={values.confirmPassword}
+                        onChange={onChange}
                         placeholder="********"
+                        disabled={isRegistering}
                     />
 
-                    <input type="submit" className={styles.btnSubmit} value="Register" />
+                    <input 
+                        type="submit" 
+                        className={styles.btnSubmit} 
+                        value={isRegistering ? "Registering..." : "Register"}
+                        disabled={isRegistering}
+                    />
 
                     <p className={styles.field}>
                         <span>If you already have profile click <Link to="/login">here</Link></span>

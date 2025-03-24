@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { useAuthContext } from '../../context/authContext';
+import { useAuthContext } from '../../../context/authContext';
 import styles from './Header.module.css';
 
 export default function Header() {

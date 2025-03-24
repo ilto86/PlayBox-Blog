@@ -3,14 +3,19 @@ import AuthGuard from './guards/AuthGuard';
 import GuestGuard from './guards/GuestGuard';
 import OwnerGuard from './guards/OwnerGuard';
 
-import Header from './components/Header/Header';
-import Home from './components/Home/Home';
-import Login from './components/Login/Login';
-import Register from './components/Register/Register';
-import ConsoleList from './components/ConsoleList/ConsoleList';
-import ConsoleDetails from './components/ConsoleDetails/ConsoleDetails';
-import CreateConsole from './components/CreateConsole/CreateConsole';
-import EditConsole from './components/EditConsole/EditConsole';
+// Layout
+import Header from './components/layout/Header/Header';
+import Home from './components/layout/Home/Home';
+
+// Auth components
+import Login from './components/auth/Login/Login';
+import Register from './components/auth/Register/Register';
+
+// Console components
+import ConsoleList from './components/consoles/ConsoleList/ConsoleList';
+import ConsoleDetails from './components/consoles/ConsoleDetails/ConsoleDetails';
+import CreateConsole from './components/consoles/CreateConsole/CreateConsole';
+import EditConsole from './components/consoles/EditConsole/EditConsole';
 
 function App() {
     return (

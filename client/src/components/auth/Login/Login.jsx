@@ -1,11 +1,14 @@
-import { useAuthContext } from '../../context/authContext';
-import { useForm } from '../../hooks/useForm';
+import { useAuthContext } from '../../../context/authContext';
+import { useForm } from '../../../hooks/useForm';
 import styles from './Login.module.css';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import Spinner from '../../common/Spinner/Spinner';
 
 export default function Login() {
     const navigate = useNavigate();
     const location = useLocation();
+    const [isLoading, setIsLoading] = useState(false);
     
     const { loginSubmitHandler, error } = useAuthContext();
     const { values, onChange, onSubmit } = useForm({
@@ -13,19 +16,20 @@ export default function Login() {
         password: '',
     }, async (values) => {
         try {
-            console.log('Submitting with values:', values); // Тук дебъгвам за да видя данните на текущия user'a с който се логвам
+            setIsLoading(true);
             await loginSubmitHandler(values);
-            
-            // Тук връщам user'a към предишната страница в която е бил преди да се логне или към Home page'a
             const path = location.state?.from?.pathname || '/';
             navigate(path);
         } catch (error) {
             console.error('Form submission error:', error);
+        } finally {
+            setIsLoading(false);
         }
     });
 
     return (
         <section className={styles.login}>
+            {isLoading && <Spinner />}
             <form onSubmit={onSubmit}>
                 <div className={styles.container}>
                     <h1>Login</h1>
@@ -52,7 +56,12 @@ export default function Login() {
                         placeholder="********"
                     />
 
-                    <input type="submit" className={styles.btnSubmit} value="Login" />
+                    <input 
+                        type="submit" 
+                        className={styles.btnSubmit} 
+                        value="Login" 
+                        disabled={isLoading}
+                    />
 
                     <p className={styles.field}>
                         <span>If you don't have profile click <Link to="/register">here</Link></span>
