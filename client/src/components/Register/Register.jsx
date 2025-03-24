@@ -1,27 +1,32 @@
 import { useAuthContext } from '../../context/authContext';
 import { useForm } from '../../hooks/useForm';
-import styles from './Login.module.css';
+import styles from './Register.module.css';
 import { Link } from 'react-router-dom';
 
-export default function Login() {
-    const { loginSubmitHandler, error } = useAuthContext();
+export default function Register() {
+    const { registerSubmitHandler, error } = useAuthContext();
     const { values, onChange, onSubmit } = useForm({
         email: '',
         password: '',
+        confirmPassword: '',
     }, async (values) => {
+        if (values.password !== values.confirmPassword) {
+            // Можем да добавим error handling тук
+            return;
+        }
+
         try {
-            console.log('Submitting with values:', values); // Тук дебъгвам за да видя данните на текущия юзър с който се логвам
-            await loginSubmitHandler(values);
+            await registerSubmitHandler(values);
         } catch (error) {
             console.error('Form submission error:', error);
         }
     });
 
     return (
-        <section className={styles.login}>
+        <section className={styles.register}>
             <form onSubmit={onSubmit}>
                 <div className={styles.container}>
-                    <h1>Login</h1>
+                    <h1>Register</h1>
                     
                     {error && <p className={styles.error}>{error}</p>}
 
@@ -32,7 +37,7 @@ export default function Login() {
                         name="email"
                         onChange={onChange}
                         value={values.email}
-                        placeholder="user@mail.com"
+                        placeholder="peter@abv.bg"
                     />
 
                     <label htmlFor="password">Password:</label>
@@ -45,10 +50,20 @@ export default function Login() {
                         placeholder="********"
                     />
 
-                    <input type="submit" className={styles.btnSubmit} value="Login" />
+                    <label htmlFor="confirmPassword">Confirm Password:</label>
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        onChange={onChange}
+                        value={values.confirmPassword}
+                        placeholder="********"
+                    />
+
+                    <input type="submit" className={styles.btnSubmit} value="Register" />
 
                     <p className={styles.field}>
-                        <span>If you don't have profile click <Link to="/register">here</Link></span>
+                        <span>If you already have profile click <Link to="/login">here</Link></span>
                     </p>
                 </div>
             </form>
