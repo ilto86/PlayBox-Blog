@@ -1,17 +1,24 @@
 import { useAuthContext } from '../../context/authContext';
 import { useForm } from '../../hooks/useForm';
 import styles from './Login.module.css';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 export default function Login() {
+    const navigate = useNavigate();
+    const location = useLocation();
+    
     const { loginSubmitHandler, error } = useAuthContext();
     const { values, onChange, onSubmit } = useForm({
         email: '',
         password: '',
     }, async (values) => {
         try {
-            console.log('Submitting with values:', values); // Тук дебъгвам за да видя данните на текущия юзър с който се логвам
+            console.log('Submitting with values:', values); // Тук дебъгвам за да видя данните на текущия user'a с който се логвам
             await loginSubmitHandler(values);
+            
+            // Тук връщам user'a към предишната страница в която е бил преди да се логне или към Home page'a
+            const path = location.state?.from?.pathname || '/';
+            navigate(path);
         } catch (error) {
             console.error('Form submission error:', error);
         }

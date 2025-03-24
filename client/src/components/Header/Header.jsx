@@ -1,9 +1,10 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuthContext } from '../../context/authContext';
 import styles from './Header.module.css';
 
 export default function Header() {
     const { isAuthenticated, username, logoutHandler } = useAuthContext();
+    const location = useLocation();
 
     return (
         <header className={styles.header}>
@@ -28,7 +29,7 @@ export default function Header() {
 
                 {!isAuthenticated && (
                     <>
-                        <Link to="/login">Login</Link>
+                        <Link to="/login" state={{ from: location }}>Login</Link>
                         <Link to="/register">Register</Link>
                     </>
                 )}

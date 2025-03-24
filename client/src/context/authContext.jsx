@@ -22,7 +22,6 @@ export const AuthProvider = ({ children }) => {
     const loginSubmitHandler = async (values) => {
         const result = await authService.login(values.email, values.password);
         setAuth(result);
-        navigate(Path.Home);
     };
 
     const registerSubmitHandler = async (values) => {
