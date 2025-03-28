@@ -4,6 +4,7 @@ import styles from './Login.module.css';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import Spinner from '../../common/Spinner/Spinner';
+import ErrorBox from '../../common/ErrorBox/ErrorBox';
 
 export default function Login() {
     const navigate = useNavigate();
@@ -29,12 +30,12 @@ export default function Login() {
 
     return (
         <section className={styles.login}>
+            {error && <ErrorBox error={error} />}
             {isLoading && <Spinner />}
+            
             <form onSubmit={onSubmit}>
                 <div className={styles.container}>
                     <h1>Login</h1>
-                    
-                    {error && <p className={styles.error}>{error}</p>}
 
                     <label htmlFor="email">Email:</label>
                     <input

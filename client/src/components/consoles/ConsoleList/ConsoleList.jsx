@@ -11,7 +11,7 @@ export default function ConsoleList() {
     useEffect(() => {
         consoleService.getAll()
             .then(result => {
-                setConsoles(result);
+                setConsoles(Object.values(result));
             })
             .catch(err => console.log(err))
             .finally(() => setIsLoading(false));

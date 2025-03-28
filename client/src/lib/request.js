@@ -1,64 +1,70 @@
 const buildOptions = (data) => {
-    const options = {};
+    const options = {
+        method: 'GET',  // По подразбиране GET
+        headers: {}
+    };
 
     if (data) {
+        options.method = 'POST';  // Ако имаме данни, променяме на POST
+        options.headers['Content-Type'] = 'application/json';
         options.body = JSON.stringify(data);
-        options.headers = {
-            'content-type': 'application/json'
-        };
     }
 
-    const token = localStorage.getItem('accessToken');
-    console.log('Current token:', token); // Тук дебъгвам за да видя текущия token    
-
-    if (token) {
-        options.headers = {
-            ...options.headers,
-            'X-Authorization': token
-        };
+    // Взимаме токена от auth данните
+    const auth = localStorage.getItem('auth');
+    if (auth) {
+        try {
+            const authData = JSON.parse(auth);
+            if (authData.accessToken) {
+                options.headers['X-Authorization'] = authData.accessToken;
+            }
+        } catch (err) {
+            console.error('Error parsing auth data');
+        }
     }
 
     return options;
 };
 
-const request = async (method, url, data) => {
+const request = async (url, options) => {
     try {
-        const response = await fetch(url, {
-            ...buildOptions(data),
-            method,
-        });
-
-        // Тук ако получа грешка 403 или сървърът е недостъпен, изчиствам authorization данните:
-        if (response.status === 403) {
-            localStorage.removeItem('authorization');
-            localStorage.removeItem('accessToken');
-            window.location.reload(); // Тук презареждам страницата
-            return;
-        }
-
+        const response = await fetch(url, options);
+        
         if (response.status === 204) {
             return {};
         }
 
         const result = await response.json();
-
+        
         if (!response.ok) {
             throw result;
         }
 
         return result;
     } catch (error) {
-        if (!window.navigator.onLine) {
-            // Тук ако нямам интернет връзка, изчиствам authorization данните:
-            localStorage.removeItem('auth');
-            localStorage.removeItem('accessToken');
+        if (error.message) {
+            throw error;
         }
-        throw error;
+        throw new Error(error);
     }
 };
 
-export const get = request.bind(null, 'GET');
-export const post = request.bind(null, 'POST');
-export const put = request.bind(null, 'PUT');
-export const remove = request.bind(null, 'DELETE');
-export const patch = request.bind(null, 'PATCH');
+export const get = async (url) => {
+    return await request(url, buildOptions());
+};
+
+export const post = async (url, data) => {
+    return await request(url, buildOptions(data));
+};
+
+export const put = async (url, data) => {
+    return await request(url, { ...buildOptions(data), method: 'PUT' });
+};
+
+export const remove = async (url) => {
+    return await request(url, { ...buildOptions(), method: 'DELETE' });
+};
+
+export const patch = async (url, data) => {
+    return await request(url, { ...buildOptions(data), method: 'PATCH' });
+};

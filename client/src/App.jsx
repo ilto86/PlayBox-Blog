@@ -10,6 +10,7 @@ import Home from './components/layout/Home/Home';
 // Auth components
 import Login from './components/auth/Login/Login';
 import Register from './components/auth/Register/Register';
+import Profile from './components/auth/Profile/Profile';
 
 // Console components
 import ConsoleList from './components/consoles/ConsoleList/ConsoleList';
@@ -36,6 +37,7 @@ function App() {
 
                     {/* Auth Guard Routes */}
                     <Route element={<AuthGuard />}>
+                        <Route path="/profile" element={<Profile />} />
                         <Route path="/consoles/create" element={<CreateConsole />} />
                         
                         {/* Owner Guard Routes */}

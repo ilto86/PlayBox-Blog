@@ -1,0 +1,28 @@
+{
+    "profiles": {
+        "35c62d76-8152-4626-8712-eeb96381bea8": {
+            "_id": "35c62d76-8152-4626-8712-eeb96381bea8",
+            "_ownerId": "35c62d76-8152-4626-8712-eeb96381bea8",
+            "username": "Peter Tosh",
+            "email": "peter@abv.bg",
+            "imageUrl": "https://images.generated.photos/8cK3oGUqAkqFYYIqWaM5hgi8FdxbFdRTLuiOkA1yCU0/rs:fit:256:256/czM6Ly9pY29uczgu/Z3Bob3Rvcy1wcm9k/LnBob3Rvcy92M18w/MDIwMjk5LmpwZw.jpg",
+            "accessToken": "a386f66a1b966be20e04cae5dee8c9b1d3d7ff743a27ab816e0883ea48d3c668"
+        },
+        "847ec027-f659-4086-8032-5173e2f9c93a": {
+            "_id": "847ec027-f659-4086-8032-5173e2f9c93a",
+            "_ownerId": "847ec027-f659-4086-8032-5173e2f9c93a",
+            "username": "George Bush",
+            "email": "george@abv.bg",
+            "imageUrl": "https://images.generated.photos/shffKcSW7h9FfQzRamW8wJPhRWU3cLwmfgbAHzB0RWs/rs:fit:512:512/wm:0.95:sowe:18:18:0.33/czM6Ly9pY29uczgu/Z3Bob3Rvcy1wcm9k/LnBob3Rvcy92M18w/ODMzNDYxLmpwZw.jpg",
+            "accessToken": "11fb6e5205e272b38fed1c7707e6c08b7a89eeb8be664b99b6c90e04a653baca"
+        },
+        "60f0cf0b-34b0-4abd-9769-8c42f830dffc": {
+            "_id": "60f0cf0b-34b0-4abd-9769-8c42f830dffc",
+            "_ownerId": "60f0cf0b-34b0-4abd-9769-8c42f830dffc",
+            "username": "Admin",
+            "email": "admin@abv.bg",
+            "imageUrl": "https://images.generated.photos/hUwKskvmMIaQQC8cgSkHI28993bEejXYxBgIlm-_O0M/rs:fit:512:512/wm:0.95:sowe:18:18:0.33/czM6Ly9pY29uczgu/Z3Bob3Rvcy1wcm9k/LnBob3Rvcy92M18w/ODgxNzk4LmpwZw.jpg",
+            "accessToken": "aac8d774069811123c7e837268fd0fb573e7f1ec3fc1157349b4e8a4a1d22605"
+        }
+    }
+}

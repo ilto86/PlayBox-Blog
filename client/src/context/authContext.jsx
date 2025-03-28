@@ -1,7 +1,8 @@
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import * as authService from '../services/authService';
+import * as profileService from '../services/profileService';
 import { Path } from '../utils/pathUtils';
 import PropTypes from 'prop-types';
 
@@ -10,6 +11,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const navigate = useNavigate();
     const [auth, setAuth] = useLocalStorage('auth', {});
+    const [error, setError] = useState(null);
     
     const formatUsername = (email) => {
         if (!email) {
@@ -20,8 +22,31 @@ export const AuthProvider = ({ children }) => {
     };
 
     const loginSubmitHandler = async (values) => {
-        const result = await authService.login(values.email, values.password);
-        setAuth(result);
+        try {
+            setError(null);
+            const result = await authService.login(values.email, values.password);
+            
+            if (result) {
+                // След успешен логин, зареждаме профилните данни
+                const profileData = await profileService.getProfile(result._id);
+                
+                // Комбинираме auth данните с профилните данни
+                const userData = {
+                    ...result,
+                    username: profileData?.username || formatUsername(result.email),
+                    imageUrl: profileData?.imageUrl || ''
+                };
+                
+                setAuth(userData);
+                return true;
+            } else {
+                throw new Error('Login failed');
+            }
+        } catch (err) {
+            console.error('Login error:', err);
+            setError(err.message || 'Login failed');
+            return false;
+        }
     };
 
     const registerSubmitHandler = async (values) => {
@@ -36,6 +61,14 @@ export const AuthProvider = ({ children }) => {
         navigate(Path.Home);
     };
 
+    const updateUser = async (userData) => {
+        // Обновяваме в localStorage
+        setAuth(state => ({
+            ...state,
+            ...userData
+        }));
+    };
+
     const values = {
         loginSubmitHandler,
         registerSubmitHandler,
@@ -44,6 +77,10 @@ export const AuthProvider = ({ children }) => {
         email: auth?.email,
         userId: auth?._id,
         isAuthenticated: !!auth?.accessToken,
+        updateUser,
+        imageUrl: auth?.imageUrl,
+        error,
+        setError
     };
 
     return (

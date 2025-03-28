@@ -7,6 +7,7 @@ export const useLocalStorage = (key, initialValue) => {
             return item ? JSON.parse(item) : initialValue;
         } catch (error) {
             console.log('Error reading localStorage:', error);
+            localStorage.removeItem(key);
             return initialValue;
         }
     });
@@ -37,8 +38,15 @@ export const useLocalStorage = (key, initialValue) => {
 
     const setItem = (value) => {
         try {
-            localStorage.setItem(key, JSON.stringify(value));
-            setState(value);
+            const valueToStore = value instanceof Function ? value(state) : value;
+            
+            setState(valueToStore);
+            
+            if (valueToStore === initialValue) {
+                localStorage.removeItem(key);
+            } else {
+                localStorage.setItem(key, JSON.stringify(valueToStore));
+            }
         } catch (error) {
             console.log('Error saving to localStorage:', error);
         }

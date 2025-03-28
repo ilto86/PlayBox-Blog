@@ -22,6 +22,7 @@ export default function Header() {
                 {isAuthenticated && (
                     <>
                         <Link to="/consoles/create">Add Console</Link>
+                        <Link to="/profile">My Profile</Link>
                         <span className={styles.username}>Hello, {username}!</span>
                         <button className={styles.logoutBtn} onClick={logoutHandler}>Logout</button>
                     </>
