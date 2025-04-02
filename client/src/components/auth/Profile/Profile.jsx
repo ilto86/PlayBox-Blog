@@ -6,26 +6,20 @@ import Spinner from '../../common/Spinner/Spinner';
 import ErrorBox from '../../common/ErrorBox/ErrorBox';
 import styles from './Profile.module.css';
 import { Link } from 'react-router-dom';
+import { Path } from '../../../utils/pathUtils';
+import sharedStyles from '../../../styles/shared/ConsoleCard.module.css';
+import { DEFAULT_AVATAR } from '../../../utils/constants';
 
-// Constants
-const DEFAULT_AVATAR = 'https://t4.ftcdn.net/jpg/00/64/67/27/360_F_64672736_U5kpdGs9keUll8CRQ3p3YaEv2M6qkVY5.jpg';
-
-// Components
-const ProfileHeader = ({ username, image, onEdit }) => (
-    <div className={styles.profileHeader}>
-        <img src={image} alt={username} />
-        <h1>{username}</h1>
-        <button onClick={onEdit}>Edit Profile</button>
-    </div>
-);
-
-const ConsolesList = ({ consoles }) => (
-    <div className={styles.consolesList}>
-        {consoles.map(console => (
-            <ConsoleCard key={console._id} {...console} />
-        ))}
-    </div>
-);
+// В началото на компонента, преди export default function Profile()
+const getManufacturerClass = (manufacturer) => {
+    const manufacturerMap = {
+        'Nintendo': 'nintendo',
+        'Sony': 'sony',
+        'Microsoft': 'microsoft',
+        'Sega': 'sega'
+    };
+    return manufacturerMap[manufacturer] || '';
+};
 
 // Main Component
 export default function Profile() {
@@ -33,6 +27,7 @@ export default function Profile() {
     const [profileData, setProfileData] = useState({
         userConsoles: [],
         username: authUsername || '',
+        // Използваме authImageUrl само ако съществува, иначе DEFAULT_AVATAR
         profileImage: authImageUrl || DEFAULT_AVATAR
     });
     const [isEditing, setIsEditing] = useState(false);
@@ -43,50 +38,57 @@ export default function Profile() {
     const [isSaving, setIsSaving] = useState(false);
     const [userConsoles, setUserConsoles] = useState([]);
     
-    // Просто използваме един ref за предотвратяване на двойни заявки
+    // Връщаме updateProcessRef за предотвратяване на race conditions
     const updateProcessRef = useRef(false);
 
     useEffect(() => {
+        if (!userId || updateProcessRef.current) {
+            return;
+        }
+
         const loadProfileData = async () => {
             try {
+                updateProcessRef.current = true;
                 setIsLoading(true);
                 const [profile, consoles] = await Promise.all([
                     profileService.getProfile(userId),
                     consoleService.getUserConsoles(userId)
                 ]);
                 
-                setProfileData(prev => ({ ...prev, ...profile }));
-                setUserConsoles(consoles);
+                setProfileData(prev => ({
+                    ...prev,
+                    ...profile,
+                    // Използваме съществуващата снимка или DEFAULT_AVATAR
+                    profileImage: profile?.imageUrl || DEFAULT_AVATAR
+                }));
+                setUserConsoles(consoles || []);
             } catch (err) {
                 console.error('Failed to load profile data:', err);
                 setError('Failed to load profile data');
             } finally {
                 setIsLoading(false);
+                updateProcessRef.current = false;
             }
         };
 
-        if (userId) {
-            loadProfileData();
-        }
+        loadProfileData();
     }, [userId]);
 
-    const handleEdit = () => {
-        setIsEditing(true);
-    };
+    const handleEdit = () => setIsEditing(true);
 
     const handleSave = async () => {
-        if (!profileData.username || isSaving) return;
+        if (!profileData.username || isSaving) {
+            return;
+        }
         
         try {
             setIsSaving(true);
             
-            // Записваме в profiles колекцията
             await profileService.updateProfile(userId, {
                 username: profileData.username,
                 imageUrl: profileData.profileImage
             });
 
-            // Обновяваме auth контекста
             await updateUser({ 
                 username: profileData.username, 
                 imageUrl: profileData.profileImage 
@@ -100,12 +102,12 @@ export default function Profile() {
         }
     };
 
-    const handleImageEdit = () => {
-        setIsEditingImage(true);
-    };
+    const handleImageEdit = () => setIsEditingImage(true);
 
     const handleImageSave = async () => {
-        if (!imageUrl || isSaving) return;
+        if (!imageUrl) {
+            return;
+        }
         
         try {
             setIsSaving(true);
@@ -127,8 +129,13 @@ export default function Profile() {
         }
     };
 
-    if (isLoading) { return <Spinner />; }
-    if (error) { return <ErrorBox error={error} />; }
+    if (isLoading) {
+        return <Spinner />;
+    }
+    
+    if (error) {
+        return <ErrorBox error={error} />;
+    }
 
     return (
         <section className={styles.profile}>
@@ -136,11 +143,12 @@ export default function Profile() {
                 <div className={styles.profileImageContainer}>
                     <img 
                         src={profileData.profileImage} 
-                        alt={profileData.username} 
+                        alt={profileData.username}
                         className={styles.profileImage}
+                        // Премахваме onError handler-а, тъй като DEFAULT_AVATAR е винаги валиден
                     />
                     <button onClick={handleImageEdit} className={styles.editImageBtn}>
-                        <i className="fas fa-camera"></i>
+                        <i className="fa-solid fa-camera"></i>
                     </button>
                 </div>
 
@@ -167,10 +175,15 @@ export default function Profile() {
                             value={profileData.username}
                             onChange={(e) => setProfileData(prev => ({ ...prev, username: e.target.value }))}
                             className={styles.editInput}
+                            placeholder="Enter username"
                         />
                         <div className={styles.editButtons}>
-                            <button onClick={handleSave} className={styles.saveBtn}>Save</button>
-                            <button onClick={() => setIsEditing(false)} className={styles.cancelBtn}>Cancel</button>
+                            <button onClick={handleSave} className={styles.saveBtn}>
+                                Save
+                            </button>
+                            <button onClick={() => setIsEditing(false)} className={styles.cancelBtn}>
+                                Cancel
+                            </button>
                         </div>
                     </div>
                 ) : (
@@ -192,21 +205,39 @@ export default function Profile() {
                 <h2>My Consoles</h2>
                 {userConsoles.length === 0 ? (
                     <div className={styles.noConsoles}>
-                        <p>You haven't added any consoles yet.</p>
-                        <Link to="/consoles/create" className={styles.addButton}>
+                        <p>You haven&apos;t added any consoles yet.</p>
+                        <Link to={Path.ConsoleCreate} className={styles.addButton}>
                             Add Your First Console
                         </Link>
                     </div>
                 ) : (
-                    <div className={styles.consoleGrid}>
+                    <div className={styles.consolesGrid}>
                         {userConsoles.map(console => (
-                            <div key={console._id} className={styles.consoleCard}>
-                                <img src={console.imageUrl} alt={console.name} />
-                                <h3>{console.name}</h3>
-                                <p>{console.brand}</p>
-                                <Link to={`/consoles/${console._id}`} className={styles.viewDetailsBtn}>
-                                    View Details
-                                </Link>
+                            <div key={console._id} className={sharedStyles.consoleCard}>
+                                <img 
+                                    src={console.imageUrl} 
+                                    alt={console.consoleName}
+                                    className={sharedStyles.consoleImage}
+                                />
+                                <div className={sharedStyles.consoleInfo}>
+                                    <h3 className={sharedStyles.consoleName}>
+                                        {console.consoleName}
+                                    </h3>
+                                    <p className={`${sharedStyles.consoleManufacturer} ${sharedStyles[getManufacturerClass(console.manufacturer)]}`}>
+                                        {console.manufacturer}
+                                    </p>
+                                    <div className={sharedStyles.consoleDetails}>
+                                        <span className={sharedStyles.consolePrice}>
+                                            {Number(console.price).toFixed(2)}&nbsp;€
+                                        </span>
+                                        <Link 
+                                            to={`/consoles/${console._id}`} 
+                                            className={sharedStyles.viewDetailsBtn}
+                                        >
+                                            View Details
+                                        </Link>
+                                    </div>
+                                </div>
                             </div>
                         ))}
                     </div>
@@ -214,4 +245,4 @@ export default function Profile() {
             </div>
         </section>
     );
-} 
+}

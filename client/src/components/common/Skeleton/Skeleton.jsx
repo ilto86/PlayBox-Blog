@@ -6,4 +6,4 @@ export const ProfileSkeleton = () => (
             <div className={styles.line}></div>
         </div>
     </div>
-); 
+);

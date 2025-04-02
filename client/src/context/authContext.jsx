@@ -1,104 +1,121 @@
 import { createContext, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import * as authService from '../services/authService';
 import * as profileService from '../services/profileService';
 import { Path } from '../utils/pathUtils';
-import PropTypes from 'prop-types';
+import { DEFAULT_AVATAR } from '../utils/constants';
 
 const AuthContext = createContext();
 
+const formatUsername = (email) => email?.split('@')[0] || 'User';
+
 export const AuthProvider = ({ children }) => {
-    const navigate = useNavigate();
     const [auth, setAuth] = useLocalStorage('auth', {});
     const [error, setError] = useState(null);
-    
-    const formatUsername = (email) => {
-        if (!email) {
-            return '';
-        }
-        const username = email.split('@')[0];
-        return username.charAt(0).toUpperCase() + username.slice(1);
-    };
+    const navigate = useNavigate();
 
     const loginSubmitHandler = async (values) => {
+        setError(null);
         try {
-            setError(null);
-            const result = await authService.login(values.email, values.password);
+            const basicAuthResult = await authService.login(values.email, values.password);
             
-            if (result) {
-                // След успешен логин, зареждаме профилните данни
-                const profileData = await profileService.getProfile(result._id);
-                
-                // Комбинираме auth данните с профилните данни
-                const userData = {
-                    ...result,
-                    username: profileData?.username || formatUsername(result.email),
-                    imageUrl: profileData?.imageUrl || ''
+            let profileData = null;
+            try {
+                profileData = await profileService.getProfile(basicAuthResult._id);
+            } catch (profileError) {
+                profileData = {
+                    username: formatUsername(basicAuthResult.email),
+                    imageUrl: DEFAULT_AVATAR,
+                    _id: basicAuthResult._id
                 };
-                
-                setAuth(userData);
-                return true;
-            } else {
-                throw new Error('Login failed');
             }
+
+            const fullUserData = {
+                ...basicAuthResult,
+                username: profileData?.username || formatUsername(basicAuthResult.email),
+                imageUrl: profileData?.imageUrl || DEFAULT_AVATAR,
+                _id: basicAuthResult._id
+            };
+
+            setAuth(fullUserData);
+            return fullUserData;
+
         } catch (err) {
-            console.error('Login error:', err);
-            setError(err.message || 'Login failed');
-            return false;
+            setError(err.message || 'Login failed. Please check your credentials.');
+            throw err;
         }
     };
 
     const registerSubmitHandler = async (values) => {
-        const result = await authService.register(values.email, values.password);
-        setAuth(result);
-        navigate(Path.Home);
+        setError(null);
+        try {
+            const result = await authService.register(values.email, values.password);
+            setAuth(result);
+            navigate(Path.Home);
+            return result;
+        } catch (err) {
+            setError(err.message || 'Registration failed.');
+            throw err;
+        }
     };
 
     const logoutHandler = async () => {
-        await authService.logout();
-        setAuth({});
-        navigate(Path.Home);
+        setError(null);
+        try {
+            if (auth?.accessToken) {
+                await authService.logout();
+            }
+        } catch (logoutError) {
+            console.error('Logout failed:', logoutError);
+        } finally {
+            setAuth({});
+            navigate(Path.Home);
+        }
     };
 
     const updateUser = async (userData) => {
-        // Обновяваме в localStorage
         setAuth(state => ({
             ...state,
             ...userData
         }));
     };
 
-    const values = {
+    const contextValues = {
         loginSubmitHandler,
         registerSubmitHandler,
         logoutHandler,
-        username: auth.username || formatUsername(auth?.email),
+        username: auth?.username,
         email: auth?.email,
         userId: auth?._id,
         isAuthenticated: !!auth?.accessToken,
         updateUser,
-        imageUrl: auth?.imageUrl,
+        imageUrl: auth?.imageUrl || DEFAULT_AVATAR,
         error,
         setError
     };
 
     return (
-        <AuthContext.Provider value={values}>
+        <AuthContext.Provider value={contextValues}>
             {children}
         </AuthContext.Provider>
     );
 };
 
-// PropTypes validation
 AuthProvider.propTypes = {
     children: PropTypes.node.isRequired,
 };
 
 export const useAuthContext = () => {
     const context = useContext(AuthContext);
+    
     if (!context) {
         throw new Error('useAuthContext must be used within an AuthProvider');
     }
+    
     return context;
 };
+
+export default AuthContext; 

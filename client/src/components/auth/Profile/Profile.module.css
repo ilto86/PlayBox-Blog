@@ -32,17 +32,23 @@
 
 .editImageBtn {
     position: absolute;
-    bottom: 5px;
-    right: 5px;
+    bottom: 0;
+    right: 0;
     background: #3498db;
-    color: white;
     border: none;
     border-radius: 50%;
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.editImageBtn i {
+    color: white;
+    font-size: 18px;
 }
 
 .editImageBtn:hover {
@@ -50,152 +56,268 @@
     transform: scale(1.1);
 }
 
-.username {
+.editForm {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.editForm h2 {
+    color: #333;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
+.editForm label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #555;
+    text-align: left;
+    font-weight: 500;
+}
+
+.editForm input {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.editForm input:disabled {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+}
+
+.editActions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.editActions button {
+    padding: 0.8rem 2rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.editActions button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.editActions button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+.editActions button[type="button"] {
+    background-color: #f44336;
+    color: white;
+}
+
+.editActions button[type="button"]:hover {
+    background-color: #da190b;
+}
+
+.editActions button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.editButton {
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s;
+}
+
+.editButton:hover {
+    background-color: #1976D2;
+}
+
+/* Секция с конзолите */
+.userConsoles {
+    margin-top: 3rem;
+}
+
+.userConsoles h2 {
     font-size: 1.8rem;
     color: #2c3e50;
-    margin-bottom: 0.5rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.consolesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+}
+
+/* Прилагаме брандинг стиловете и тук */
+.nintendo {
+    color: #e60012;
+    font-family: "Pretendo", sans-serif;
+}
+
+.sony {
+    color: #003791;
+    font-family: "SST", sans-serif;
+    letter-spacing: 2px;
+}
+
+.microsoft {
+    color: #107C10;
+    font-family: "Segoe UI", sans-serif;
+}
+
+.sega {
+    color: #0089CF;
+    font-family: "SEGA", sans-serif;
+}
+
+/* Стил за празно състояние */
+.noConsoles {
+    text-align: center;
+    padding: 3rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.noConsoles p {
+    color: #666;
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+}
+
+.addButton {
+    display: inline-block;
+    background: #3498db;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: opacity 0.2s;
+}
+
+.addButton:hover {
+    opacity: 0.9;
 }
 
 .editUsernameBtn {
     background: #3498db;
     color: white;
     border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
+    padding: 8px 16px;
+    border-radius: 4px;
     cursor: pointer;
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
-    margin: 1rem 0;
+    font-size: 14px;
+    transition: opacity 0.2s ease;
 }
 
 .editUsernameBtn:hover {
-    background: #2980b9;
-    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+.username {
+    font-size: 1.5rem;
+    color: #333;
+    margin: 0.5rem 0;
 }
 
 .email {
-    color: #7f8c8d;
-    margin-bottom: 0.5rem;
+    color: #666;
+    margin: 0.5rem 0;
 }
 
-.consoleCount {
-    color: #34495e;
-    font-weight: 500;
-}
-
-/* Форма за редактиране */
+/* Стилове за формата за редактиране */
 .editForm {
-    margin-top: 1rem;
+    margin: 1rem 0;
 }
 
 .editInput {
     width: 100%;
-    padding: 0.8rem;
-    border: 2px solid #3498db;
-    border-radius: 5px;
-    margin-bottom: 1rem;
+    max-width: 250px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
     font-size: 1rem;
 }
 
 .editButtons {
     display: flex;
-    gap: 1rem;
+    gap: 10px;
     justify-content: center;
 }
 
 .saveBtn,
 .cancelBtn {
-    padding: 0.5rem 1.5rem;
+    padding: 8px 16px;
     border: none;
-    border-radius: 5px;
+    border-radius: 4px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    font-size: 14px;
+    color: white;
 }
 
 .saveBtn {
-    background: #2ecc71;
-    color: white;
+    background: #3498db;
 }
 
 .cancelBtn {
     background: #e74c3c;
-    color: white;
 }
 
-.saveBtn:hover,
-.cancelBtn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-}
-
-.userConsoles {
-    margin-top: 2rem;
-    padding: 1rem;
-}
-
-.consoleGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1rem;
-    margin-top: 1rem;
-}
-
-.consoleCard {
-    background: white;
-    border-radius: 8px;
-    padding: 1rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    text-align: center;
-}
-
-.consoleCard img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 4px;
-}
-
-.consoleCard h3 {
-    margin: 0.5rem 0;
-    color: #2c3e50;
-}
-
-.consoleCard p {
-    color: #7f8c8d;
-    margin: 0;
-}
-
-.viewDetailsBtn {
-    display: inline-block;
-    background-color: #3498db;
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    text-decoration: none;
-    margin-top: 1rem;
-    transition: background-color 0.3s ease;
-}
-
-.viewDetailsBtn:hover {
-    background-color: #2980b9;
-}
-
-.noConsoles {
-    text-align: center;
-    padding: 2rem;
-}
-
-.addButton {
-    display: inline-block;
-    margin-top: 1rem;
-    padding: 0.8rem 1.5rem;
+/* Бутони за Edit/Delete на конзолата */
+.editBtn {
     background: #3498db;
     color: white;
-    text-decoration: none;
+    border: none;
+    padding: 8px 16px;
     border-radius: 4px;
-    transition: background 0.3s ease;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 10px;
 }
 
-.addButton:hover {
-    background: #2980b9;
+.deleteBtn {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* Премахваме hover ефектите и сенките за по-изчистен вид */
+.editBtn:hover,
+.deleteBtn:hover,
+.viewDetailsBtn:hover,
+.saveBtn:hover,
+.cancelBtn:hover {
+    opacity: 0.9;
+}
+
+/* Input полета */
+.editInput {
+    width: 100%;
+    max-width: 250px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-size: 14px;
 } 

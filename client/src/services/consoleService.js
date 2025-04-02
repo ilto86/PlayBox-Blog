@@ -1,10 +1,12 @@
 import * as request from '../lib/request';
+import { normalizeManufacturerName } from '../utils/manufacturerUtils';
 
 const baseUrl = 'http://localhost:3030/jsonstore/consoles';
 
 export const getAll = async () => {
     try {
         const result = await request.get(baseUrl);
+        // Връщаме само конзолите от новия формат
         return result;
     } catch (error) {
         console.error('Error fetching consoles:', error);
@@ -24,7 +26,13 @@ export const getOne = async (consoleId) => {
 
 export const create = async (consoleData) => {
     try {
-        const result = await request.post(baseUrl, consoleData);
+        // Нормализираме името на производителя преди да го запазим
+        const normalizedData = {
+            ...consoleData,
+            manufacturer: normalizeManufacturerName(consoleData.manufacturer)
+        };
+        
+        const result = await request.post(baseUrl, normalizedData);
         return result;
     } catch (error) {
         console.error('Error creating console:', error);
@@ -34,7 +42,13 @@ export const create = async (consoleData) => {
 
 export const edit = async (consoleId, consoleData) => {
     try {
-        const result = await request.put(`${baseUrl}/${consoleId}`, consoleData);
+        // Нормализираме името на производителя преди да го запазим
+        const normalizedData = {
+            ...consoleData,
+            manufacturer: normalizeManufacturerName(consoleData.manufacturer)
+        };
+        
+        const result = await request.put(`${baseUrl}/${consoleId}`, normalizedData);
         return result;
     } catch (error) {
         console.error('Error updating console:', error);
@@ -69,7 +83,7 @@ export const deleteConsole = async (consoleId) => {
         throw error;
     }
 };
-
+    
 export const getConsole = async (consoleId) => {
     try {
         const result = await request.get(`${baseUrl}/${consoleId}`);

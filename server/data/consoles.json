@@ -1,7 +1,7 @@
 {
     "4ece10f7-323a-4469-8502-b0a11b088c51": {
         "consoleName": "Nintendo Famicom",
-        "manufacturer": "Nintento",
+        "manufacturer": "Nintendo",
         "releaseDate": "1983-07-17",
         "storageCapacity": "8 KB",
         "color": "Pearl Ruby Red and Gray",
@@ -11,7 +11,7 @@
     },
     "71d7f260-97c6-49a5-b642-8f6b62fc51f9": {
         "consoleName": "PlayStation®5",
-        "manufacturer": "SONY",
+        "manufacturer": "Sony",
         "releaseDate": "2020-09-12",
         "storageCapacity": "1 TB",
         "color": "White",
@@ -30,5 +30,3 @@
         "_id": "da5632c4-672d-46e8-a6b1-2e6eebc60d63"
     }
 }
-
-

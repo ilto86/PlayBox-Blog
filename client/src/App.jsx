@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import AuthGuard from './guards/AuthGuard';
 import GuestGuard from './guards/GuestGuard';
 import OwnerGuard from './guards/OwnerGuard';
@@ -18,36 +18,45 @@ import ConsoleDetails from './components/consoles/ConsoleDetails/ConsoleDetails'
 import CreateConsole from './components/consoles/CreateConsole/CreateConsole';
 import EditConsole from './components/consoles/EditConsole/EditConsole';
 
+import { AuthProvider } from './context/authContext';
+import { Path } from './utils/pathUtils';
+
 function App() {
+    const location = useLocation();
+    console.log(`App.jsx: Location changed to ${location.pathname}${location.search}${location.hash}`);
+
     return (
-        <div>
-            <Header />
-            
-            <main>
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/consoles" element={<ConsoleList />} />
-                    <Route path="/consoles/:consoleId" element={<ConsoleDetails />} />
+        <AuthProvider>
+            <div id="box">
+                <Header />
+                <main id="main-content">
+                    <Routes>
+                        <Route path={Path.Home} element={<Home />} />
+                        <Route path={Path.Login} element={<Login />} />
+                        <Route path={Path.Register} element={<Register />} />
+                        <Route path={Path.Consoles} element={<ConsoleList />} />
+                        <Route path={`${Path.Consoles}/:consoleId`} element={<ConsoleDetails />} />
 
-                    {/* Guest Guard Routes */}
-                    <Route element={<GuestGuard />}>
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/register" element={<Register />} />
-                    </Route>
-
-                    {/* Auth Guard Routes */}
-                    <Route element={<AuthGuard />}>
-                        <Route path="/profile" element={<Profile />} />
-                        <Route path="/consoles/create" element={<CreateConsole />} />
-                        
-                        {/* Owner Guard Routes */}
-                        <Route element={<OwnerGuard />}>
-                            <Route path="/consoles/:consoleId/edit" element={<EditConsole />} />
+                        {/* Guest Guard Routes */}
+                        <Route element={<GuestGuard />}>
+                            <Route path={Path.Login} element={<Login />} />
+                            <Route path={Path.Register} element={<Register />} />
                         </Route>
-                    </Route>
-                </Routes>
-            </main>
-        </div>
+
+                        {/* Auth Guard Routes */}
+                        <Route element={<AuthGuard />}>
+                            <Route path={Path.Profile} element={<Profile />} />
+                            <Route path={Path.ConsoleCreate} element={<CreateConsole />} />
+                            
+                            {/* Owner Guard Routes */}
+                            <Route element={<OwnerGuard />}>
+                                <Route path={`${Path.Consoles}/:consoleId/edit`} element={<EditConsole />} />
+                            </Route>
+                        </Route>
+                    </Routes>
+                </main>
+            </div>
+        </AuthProvider>
     );
 }
 

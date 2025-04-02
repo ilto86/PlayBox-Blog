@@ -1,69 +1,153 @@
-.details {
-    padding: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
+.consoleInfo {
+    background: white;
+    border-radius: 12px;
+    padding: 3rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    max-width: 900px;
+    margin: 2rem auto;
 }
 
-.content {
-    display: flex;
-    gap: 2rem;
-    margin-top: 2rem;
-}
-
-.imageWrap {
-    flex: 1;
-}
-
-.imageWrap img {
+.consoleInfo img {
     width: 100%;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    max-height: 450px;
+    object-fit: contain;
+    margin-bottom: 2.5rem;
 }
 
-.info {
-    flex: 1;
-    padding: 1rem;
-}
-
-.info p {
-    margin: 1rem 0;
-    font-size: 1.1rem;
-}
-
-.price {
-    font-size: 1.5rem !important;
+.consoleInfo h1 {
+    font-size: 2.2rem;
     color: #2c3e50;
+    margin-bottom: 2rem;
+    font-weight: 500;
 }
 
+.details {
+    margin: 2rem 0;
+    display: grid;
+    gap: 1.2rem;
+}
+
+.details p {
+    font-size: 1.1rem;
+    color: #2c3e50;
+    display: flex;
+    align-items: center;
+}
+
+.label {
+    min-width: 140px;
+    color: #666;
+    font-weight: 500;
+}
+
+.manufacturer {
+    font-size: 1.2rem;
+}
+
+/* Стил за цената */
+.price {
+    margin-top: 2rem !important;
+    padding-top: 2rem !important;
+    border-top: 1px solid #eee;
+}
+
+.price .label {
+    font-size: 1.2rem;
+}
+
+.price span:last-child {
+    font-size: 1.8rem;
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+/* Бутони */
 .buttons {
     display: flex;
     gap: 1rem;
-    margin-top: 2rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #eee;
 }
 
 .editBtn, .deleteBtn {
-    padding: 0.8rem 2rem;
+    padding: 10px 24px;
     border: none;
-    border-radius: 4px;
-    font-weight: bold;
+    border-radius: 6px;
+    font-size: 14px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    color: white;
+    text-decoration: none;
+    transition: opacity 0.2s;
 }
 
 .editBtn {
     background: #3498db;
-    color: white;
 }
 
 .deleteBtn {
     background: #e74c3c;
-    color: white;
 }
 
-.editBtn:hover {
-    background: #2980b9;
-}
-
+.editBtn:hover,
 .deleteBtn:hover {
-    background: #c0392b;
+    opacity: 0.9;
+}
+
+/* Стилове за различните производители */
+.manufacturerName {
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.nintendo {
+    color: #e60012;
+    font-family: "Pretendo", sans-serif;
+}
+
+.sony {
+    color: #003791;
+    font-family: "SST", sans-serif;
+    letter-spacing: 2px;
+}
+
+.microsoft {
+    color: #107C10;
+    font-family: "Segoe UI", sans-serif;
+}
+
+.sega {
+    color: #0089CF;
+    font-family: "SEGA", sans-serif;
+}
+
+/* Стил за цветовата мостра */
+.colorInfo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.colorSample {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    border: 1px solid rgba(0,0,0,0.1);
+    overflow: hidden;
+    margin-left: 8px;
+    vertical-align: middle;
+}
+
+/* Специален стил за двуцветни конзоли */
+.dualColor {
+    background: linear-gradient(
+        135deg, /* Променяме ъгъла за по-добър вид */
+        var(--color-left) 49.9%,
+        #fff 49.9%, /* Добавяме тънка бяла линия за разделител */
+        #fff 50.1%,
+        var(--color-right) 50.1%
+    );
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1); /* Добавяме вътрешна сянка за по-добър вид */
 } 

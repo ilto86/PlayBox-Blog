@@ -6,67 +6,19 @@
 
 .catalog h1 {
   text-align: center;
-  color: #333;
+  color: #2c3e50;
   margin-bottom: 2rem;
 }
 
-.allConsoles {
-  display: inline-block;
-  width: calc(33.333% - 2rem);
-  margin: 1rem;
-  vertical-align: top;
-}
-
-.allConsolesInfo {
-  background: white;
-  border-radius: 8px;
+.consoleGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
   padding: 1rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-}
-
-.allConsolesInfo:hover {
-  transform: translateY(-5px);
-}
-
-.allConsolesInfo img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 4px;
-  margin-bottom: 1rem;
-}
-
-.allConsolesInfo h6 {
-  color: #666;
-  font-size: 1rem;
-  margin: 0.5rem 0;
-}
-
-.allConsolesInfo h2 {
-  color: #333;
-  font-size: 1.5rem;
-  margin: 0.5rem 0;
-}
-
-.detailsButton {
-  display: inline-block;
-  padding: 0.8rem 1.5rem;
-  background-color: #007bff;
-  color: white;
-  text-decoration: none;
-  border-radius: 4px;
-  margin-top: 1rem;
-  transition: background-color 0.3s ease;
-}
-
-.detailsButton:hover {
-  background-color: #0056b3;
 }
 
 .noArticles {
   text-align: center;
   color: #666;
-  font-size: 1.2rem;
-  margin-top: 3rem;
+  margin-top: 2rem;
 }

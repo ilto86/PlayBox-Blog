@@ -9,11 +9,13 @@ export const useProfileData = (userId) => {
     const [error, setError] = useState(null);
     
     useEffect(() => {
-        if (!userId) return;
+        if (!userId) { return;
+        }
         
         // Ако имаме кеширани данни, не зареждаме отново
-        if (cache.has(userId) && !loading) return;
-        
+        if (cache.has(userId) && !loading) { return;
+        }
+
         const loadData = async () => {
             try {
                 setLoading(true);

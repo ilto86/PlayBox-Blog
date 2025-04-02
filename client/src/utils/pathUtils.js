@@ -16,20 +16,32 @@ export const Path = {
 // Структура отразяваща архитектурата на сървъра
 export const API = {
     auth: {
+        // Auth
         login: `${BASE_URL}/users/login`,
         register: `${BASE_URL}/users/register`,
         logout: `${BASE_URL}/users/logout`,
     },
     data: {
+        // Users
         profiles: `${BASE_URL}/jsonstore/profiles`,
         profile: (userId) => `${BASE_URL}/jsonstore/profiles/${userId}`,
+
+        // Consoles
         consoles: `${BASE_URL}/jsonstore/consoles`,
         console: (consoleId) => `${BASE_URL}/jsonstore/consoles/${consoleId}`,
+
+        // User Consoles
         userConsoles: (userId) => `${BASE_URL}/jsonstore/consoles?where=_ownerId%3D%22${userId}%22`,
+        
+        // Likes
         likes: `${BASE_URL}/jsonstore/likes`,
-        comments: `${BASE_URL}/jsonstore/comments`,
         consoleLikes: (consoleId) => `${BASE_URL}/jsonstore/likes?where=consoleId%3D%22${consoleId}%22`,
+        
+        // User Likes
         userLikes: (userId) => `${BASE_URL}/jsonstore/likes?where=userId%3D%22${userId}%22`,
+        
+        // Comments
+        comments: `${BASE_URL}/jsonstore/comments`,
         consoleComments: (consoleId) => `${BASE_URL}/jsonstore/comments?where=consoleId%3D%22${consoleId}%22`,
     }
 };
