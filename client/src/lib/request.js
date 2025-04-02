@@ -49,6 +49,9 @@ const request = async (url, options) => {
     }
 };
 
+// Добавяме мемоизация на buildOptions
+// const memoizedBuildOptions = memoize(buildOptions);
+
 export const get = async (url) => {
     return await request(url, buildOptions());
 };

@@ -53,9 +53,16 @@ export const AuthProvider = ({ children }) => {
         setError(null);
         try {
             const result = await authService.register(values.email, values.password);
-            setAuth(result);
+            
+            const fullUserData = {
+                ...result,
+                username: formatUsername(result.email),
+                imageUrl: DEFAULT_AVATAR
+            };
+            
+            setAuth(fullUserData);
             navigate(Path.Home);
-            return result;
+            return fullUserData;
         } catch (err) {
             setError(err.message || 'Registration failed.');
             throw err;
@@ -87,7 +94,7 @@ export const AuthProvider = ({ children }) => {
         loginSubmitHandler,
         registerSubmitHandler,
         logoutHandler,
-        username: auth?.username,
+        username: auth?.username || formatUsername(auth?.email),
         email: auth?.email,
         userId: auth?._id,
         isAuthenticated: !!auth?.accessToken,
