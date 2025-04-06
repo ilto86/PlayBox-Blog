@@ -105,4 +105,27 @@ export const createProfile = async (userId, profileData) => {
         console.error('Error creating profile:', error);
         throw error;
     }
+};
+
+// Добавяме метод за изтриване на профил по userId
+export const removeProfileByUserId = async (userId) => {
+    try {
+        // Първо намираме профила по userId
+        const profiles = await request.get(API.data.profiles);
+        const profileEntry = Object.entries(profiles).find(([_, profile]) => profile._ownerId === userId);
+        
+        if (profileEntry) {
+            const [profileId, _] = profileEntry;
+            // Изтриваме профила
+            await request.remove(`${API.data.profiles}/${profileId}`);
+            console.log(`Profile with ID ${profileId} deleted successfully`);
+            return true;
+        } else {
+            console.log(`No profile found for user ID ${userId}`);
+            return false;
+        }
+    } catch (error) {
+        console.error('Error removing profile by userId:', error);
+        return false;
+    }
 }; 

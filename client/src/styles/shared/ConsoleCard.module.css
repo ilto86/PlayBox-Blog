@@ -32,7 +32,7 @@
 }
 
 .consoleManufacturer {
-    font-size: 1.1rem;
+    font-size: 1.4rem;
     margin-bottom: 1rem;
 }
 
@@ -78,7 +78,7 @@
 
 .sony {
     color: #003791;
-    font-family: "SST", sans-serif;
+    font-family: "urwclarendont", sans-serif;
     letter-spacing: 2px;
 }
 
@@ -89,5 +89,13 @@
 
 .sega {
     color: #0089CF;
-    font-family: "SEGA", sans-serif;
+    font-family: "Quicken", sans-serif;
+}
+
+/* Добавяме grid стиловете тук */
+.consolesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
 }

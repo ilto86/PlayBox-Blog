@@ -1,3 +1,8 @@
+@import url('https://fonts.cdnfonts.com/css/pretendo');
+@import url('https://fonts.cdnfonts.com/css/urwclarendont?styles=18928,18929,18912,18914,18939');
+@import url('https://fonts.cdnfonts.com/css/quicken?styles=120305,120306,120308,120316,120307,120310');
+
+
 * {
     margin: 0;
     padding: 0;
@@ -17,25 +22,4 @@ body {
     --background-color: #f8f9fa;
     --text-color: #333;
     --border-color: #e2e8f0;
-}
-
-@font-face {
-    font-family: 'Pretendo';
-    src: url('/fonts/Pretendo.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'SST';
-    src: url('/fonts/SST.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'SEGA';
-    src: url('/fonts/SEGA.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
 }

@@ -96,8 +96,8 @@
 
 /* Стилове за различните производители */
 .manufacturerName {
-    font-size: 1.4rem;
-    font-weight: 600;
+    font-size: 1.5rem;
+    font-weight: 400, 600, 700;
 }
 
 .nintendo {
@@ -107,8 +107,8 @@
 
 .sony {
     color: #003791;
-    font-family: "SST", sans-serif;
-    letter-spacing: 2px;
+    font-family: "urwclarendont", sans-serif;
+    font-weight: 700;
 }
 
 .microsoft {
@@ -118,7 +118,7 @@
 
 .sega {
     color: #0089CF;
-    font-family: "SEGA", sans-serif;
+    font-family: "Quicken", sans-serif;
 }
 
 /* Стил за цветовата мостра */

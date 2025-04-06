@@ -163,6 +163,13 @@
     padding: 1rem;
 }
 
+/* Стилове за различните производители */
+.manufacturerName {
+    font-size: 1.4rem;
+    font-weight: 400, 600, 700;
+}
+
+
 /* Прилагаме брандинг стиловете и тук */
 .nintendo {
     color: #e60012;
@@ -171,8 +178,8 @@
 
 .sony {
     color: #003791;
-    font-family: "SST", sans-serif;
-    letter-spacing: 2px;
+    font-family: "urwclarendont", sans-serif;
+    font-weight: 700;
 }
 
 .microsoft {
@@ -182,7 +189,7 @@
 
 .sega {
     color: #0089CF;
-    font-family: "SEGA", sans-serif;
+    font-family: "Quicken", sans-serif;
 }
 
 /* Стил за празно състояние */
@@ -293,13 +300,47 @@
 }
 
 .deleteBtn {
-    background: #e74c3c;
+    background-color: #dc3545;
     color: white;
+    padding: 0.5rem 1rem;
     border: none;
-    padding: 8px 16px;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 14px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+    margin-top: 1.5rem;
+    width: fit-content;
+    align-self: center;
+}
+
+.deleteBtn:hover {
+    background-color: #c82333;
+}
+
+.deleteBtn:disabled {
+    background-color: #dc354580;
+    cursor: not-allowed;
+}
+
+.btnContainer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.cancelBtn {
+    background-color: #6c757d;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cancelBtn:hover {
+    background-color: #5a6268;
 }
 
 /* Премахваме hover ефектите и сенките за по-изчистен вид */
@@ -320,4 +361,459 @@
     border-radius: 4px;
     margin-bottom: 10px;
     font-size: 14px;
+}
+
+/* Общ базов стил за бутоните в профила */
+.profileButton {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: opacity 0.2s ease;
+}
+
+.profileButton:hover {
+    opacity: 0.9;
+}
+
+/* Стил за бутона за редактиране */
+.editUsernameBtn {
+    composes: profileButton;
+    background: #3498db;
+    color: white;
+}
+
+/* Стил за бутона за изтриване */
+.deleteBtn {
+    composes: profileButton;
+    background-color: #dc3545;
+    color: white;
+    margin-top: 1.5rem;
+    width: fit-content;
+    align-self: center;
+}
+
+/* Модален прозорец */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.modal h3 {
+    margin-top: 0;
+    color: #333;
+    font-size: 1.5rem;
+}
+
+.modal p {
+    margin-bottom: 1.5rem;
+    color: #666;
+}
+
+.modalButtons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.cancelButton {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.confirmButton {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.cancelButton:hover {
+    background-color: #5a6268;
+}
+
+.confirmButton:hover {
+    background-color: #c82333;
+}
+
+.deleteButton {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 1rem;
+}
+
+.deleteButton:hover {
+    background-color: #c82333;
+}
+
+/* Базови стилове за бутони */
+.button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: opacity 0.2s ease;
+}
+
+.button:hover {
+    opacity: 0.9;
+}
+
+/* Вариации на бутоните */
+.primaryButton {
+    composes: button;
+    background-color: #3498db;
+    color: white;
+}
+
+.dangerButton {
+    composes: button;
+    background-color: #dc3545;
+    color: white;
+}
+
+.dangerButton:hover {
+    background-color: #c82333;
+}
+
+.secondaryButton {
+    composes: button;
+    background-color: #6c757d;
+    color: white;
+}
+
+.secondaryButton:hover {
+    background-color: #5a6268;
+}
+
+/* Специфични бутони */
+.editUsernameBtn {
+    composes: primaryButton;
+}
+
+.deleteButton {
+    composes: dangerButton;
+    margin-top: 1.5rem;
+    width: fit-content;
+    align-self: center;
+}
+
+.cancelBtn {
+    composes: secondaryButton;
+}
+
+.saveBtn {
+    composes: primaryButton;
+}
+
+.editBtn {
+    composes: primaryButton;
+    margin-right: 10px;
+}
+
+.deleteBtn {
+    composes: dangerButton;
+}
+
+.confirmButton {
+    composes: dangerButton;
+}
+
+.cancelButton {
+    composes: secondaryButton;
+}
+
+/* Контейнери за бутони */
+.btnContainer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.editButtons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.modalButtons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+/* Форми и инпути */
+.editInput {
+    width: 100%;
+    max-width: 250px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.editForm {
+    margin: 1rem 0;
+}
+
+/* Текстови стилове */
+.username {
+    font-size: 1.5rem;
+    color: #333;
+    margin: 0.5rem 0;
+}
+
+.email {
+    color: #666;
+    margin: 0.5rem 0;
+}
+
+.warningText {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+/* Модален прозорец */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.modal h3 {
+    margin-top: 0;
+    color: #333;
+    font-size: 1.5rem;
+}
+
+.modal p {
+    margin-bottom: 1.5rem;
+    color: #666;
+}
+
+.deleteButton {
+    composes: dangerButton;
+    margin-top: 1rem;
+}
+
+/* Премахваме .deleteButton:hover, тъй като се наследява от dangerButton:hover */
+
+/* Базови стилове за бутони */
+.button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: opacity 0.2s ease;
+}
+
+.button:hover {
+    opacity: 0.9;
+}
+
+/* Вариации на бутоните */
+.primaryButton {
+    composes: button;
+    background-color: #3498db;
+    color: white;
+}
+
+.dangerButton {
+    composes: button;
+    background-color: #dc3545;
+    color: white;
+}
+
+.dangerButton:hover {
+    background-color: #c82333;
+}
+
+.secondaryButton {
+    composes: button;
+    background-color: #6c757d;
+    color: white;
+}
+
+.secondaryButton:hover {
+    background-color: #5a6268;
+}
+
+/* Специфични бутони */
+.editUsernameBtn {
+    composes: primaryButton;
+}
+
+.deleteButton {
+    composes: dangerButton;
+    margin-top: 1.5rem;
+    width: fit-content;
+    align-self: center;
+}
+
+.cancelBtn {
+    composes: secondaryButton;
+}
+
+.saveBtn {
+    composes: primaryButton;
+}
+
+.editBtn {
+    composes: primaryButton;
+    margin-right: 10px;
+}
+
+.deleteBtn {
+    composes: dangerButton;
+}
+
+.confirmButton {
+    composes: dangerButton;
+}
+
+.cancelButton {
+    composes: secondaryButton;
+}
+
+/* Контейнери за бутони */
+.btnContainer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.editButtons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.modalButtons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+/* Форми и инпути */
+.editInput {
+    width: 100%;
+    max-width: 250px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.editForm {
+    margin: 1rem 0;
+}
+
+/* Текстови стилове */
+.username {
+    font-size: 1.5rem;
+    color: #333;
+    margin: 0.5rem 0;
+}
+
+.email {
+    color: #666;
+    margin: 0.5rem 0;
+}
+
+.warningText {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+/* Модален прозорец */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.modal h3 {
+    margin-top: 0;
+    color: #333;
+    font-size: 1.5rem;
+}
+
+.modal p {
+    margin-bottom: 1.5rem;
+    color: #666;
 } 

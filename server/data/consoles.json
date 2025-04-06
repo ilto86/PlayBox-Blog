@@ -4,14 +4,14 @@
         "manufacturer": "Nintendo",
         "releaseDate": "1983-07-17",
         "storageCapacity": "8 KB",
-        "color": "Pearl Ruby Red and Gray",
+        "color": "Famicom Red and Cream White",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Nintendo-Famicom-Console-FL.jpg/1071px-Nintendo-Famicom-Console-FL.jpg",
         "price": "150",
         "_id": "4ece10f7-323a-4469-8502-b0a11b088c51"
     },
     "71d7f260-97c6-49a5-b642-8f6b62fc51f9": {
         "consoleName": "PlayStation®5",
-        "manufacturer": "Sony",
+        "manufacturer": "SONY",
         "releaseDate": "2020-09-12",
         "storageCapacity": "1 TB",
         "color": "White",

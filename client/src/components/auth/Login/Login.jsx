@@ -6,38 +6,80 @@ import { useState } from 'react';
 import Spinner from '../../common/Spinner/Spinner';
 import ErrorBox from '../../common/ErrorBox/ErrorBox';
 import { Path } from '../../../utils/pathUtils';
+import { isValidEmail, isValidPassword } from '../../../utils/validators';
 
 export default function Login() {
     const location = useLocation();
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
-    const { loginSubmitHandler, error, setError } = useAuthContext();
+    const { loginSubmitHandler, error, clearError } = useAuthContext();
+    const [validationErrors, setValidationErrors] = useState({});
+    
+    const validateField = (name, value) => {
+        setValidationErrors(prev => {
+            const newErrors = { ...prev };
+            
+            if (name === 'email') {
+                if (!isValidEmail(value)) {
+                    newErrors.email = 'Please enter a valid email address';
+                } else {
+                    delete newErrors.email;
+                }
+            }
+            
+            if (name === 'password') {
+                if (!isValidPassword(value)) {
+                    newErrors.password = 'Password must be at least 6 characters';
+                } else {
+                    delete newErrors.password;
+                }
+            }
+            
+            return newErrors;
+        });
+    };
     
     const { values, onChange } = useForm({
         email: '',
         password: '',
+    }, null, {
+        onChangeCallback: validateField
     });
+
+    const validateForm = () => {
+        const errors = {};
+        
+        if (!isValidEmail(values.email)) {
+            errors.email = 'Please enter a valid email address';
+        }
+        
+        if (!isValidPassword(values.password)) {
+            errors.password = 'Password must be at least 6 characters';
+        }
+        
+        setValidationErrors(errors);
+        return Object.keys(errors).length === 0;
+    };
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
+        clearError();
+        
+        if (!validateForm()) {
+            return;
+        }
+        
         setIsLoading(true);
-        setError(null);
 
         try {
-            console.log("Login.jsx: Calling loginSubmitHandler...");
             const result = await loginSubmitHandler(values);
-            console.log("Login.jsx: loginSubmitHandler returned", result);
 
             if (result) {
                 const returnPath = location.state?.from || Path.Home;
-                console.log(`Login.jsx: Login successful. Preparing to redirect to: ${returnPath}`);
                 navigate(returnPath, { replace: true });
-                console.log("Login.jsx: navigate() called.");
-            } else {
-                console.log("Login.jsx: Login failed (no result returned).");
             }
         } catch (err) {
-            console.error("Login.jsx: Login failed in component catch:", err);
+            // Грешката се обработва от useErrorHandling
         } finally {
             setIsLoading(false);
         }
@@ -45,7 +87,7 @@ export default function Login() {
 
     return (
         <section className={styles.login}>
-            {error && <ErrorBox error={error} onClose={() => setError(null)} />}
+            {error && <ErrorBox error={error} onClose={clearError} />}
             {isLoading && <Spinner />}
             
             <form onSubmit={onSubmitHandler}>
@@ -61,7 +103,11 @@ export default function Login() {
                         value={values.email}
                         placeholder="user@mail.com"
                         autoComplete="email"
+                        className={validationErrors.email ? styles.inputError : ''}
                     />
+                    {validationErrors.email && (
+                        <p className={styles.errorMessage}>{validationErrors.email}</p>
+                    )}
 
                     <label htmlFor="password">Password:</label>
                     <input
@@ -72,7 +118,11 @@ export default function Login() {
                         value={values.password}
                         placeholder="********"
                         autoComplete="current-password"
+                        className={validationErrors.password ? styles.inputError : ''}
                     />
+                    {validationErrors.password && (
+                        <p className={styles.errorMessage}>{validationErrors.password}</p>
+                    )}
 
                     <input 
                         type="submit" 

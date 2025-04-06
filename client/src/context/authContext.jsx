@@ -1,8 +1,9 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { useLocalStorage } from '../hooks/useLocalStorage';
+import { useErrorHandling } from '../hooks/useErrorHandling';
 import * as authService from '../services/authService';
 import * as profileService from '../services/profileService';
 import { Path } from '../utils/pathUtils';
@@ -14,12 +15,15 @@ const formatUsername = (email) => email?.split('@')[0] || 'User';
 
 export const AuthProvider = ({ children }) => {
     const [auth, setAuth] = useLocalStorage('auth', {});
-    const [error, setError] = useState(null);
+    const { 
+        error,  
+        clearError, 
+        executeWithErrorHandling 
+    } = useErrorHandling();
     const navigate = useNavigate();
 
     const loginSubmitHandler = async (values) => {
-        setError(null);
-        try {
+        return executeWithErrorHandling(async () => {
             const basicAuthResult = await authService.login(values.email, values.password);
             
             let profileData = null;
@@ -42,16 +46,11 @@ export const AuthProvider = ({ children }) => {
 
             setAuth(fullUserData);
             return fullUserData;
-
-        } catch (err) {
-            setError(err.message || 'Login failed. Please check your credentials.');
-            throw err;
-        }
+        }, { errorPrefix: '' });
     };
 
     const registerSubmitHandler = async (values) => {
-        setError(null);
-        try {
+        return executeWithErrorHandling(async () => {
             const result = await authService.register(values.email, values.password);
             
             const fullUserData = {
@@ -63,24 +62,17 @@ export const AuthProvider = ({ children }) => {
             setAuth(fullUserData);
             navigate(Path.Home);
             return fullUserData;
-        } catch (err) {
-            setError(err.message || 'Registration failed.');
-            throw err;
-        }
+        }, { errorPrefix: 'Registration failed' });
     };
 
     const logoutHandler = async () => {
-        setError(null);
-        try {
+        return executeWithErrorHandling(async () => {
             if (auth?.accessToken) {
                 await authService.logout();
             }
-        } catch (logoutError) {
-            console.error('Logout failed:', logoutError);
-        } finally {
             setAuth({});
             navigate(Path.Home);
-        }
+        }, { errorPrefix: 'Logout failed' });
     };
 
     const updateUser = async (userData) => {
@@ -88,6 +80,15 @@ export const AuthProvider = ({ children }) => {
             ...state,
             ...userData
         }));
+    };
+
+    const deleteAccountHandler = async () => {
+        return executeWithErrorHandling(async () => {
+            await authService.deleteAccount();
+            setAuth({});
+        }, {
+            errorPrefix: 'Failed to delete account'
+        });
     };
 
     const contextValues = {
@@ -101,7 +102,8 @@ export const AuthProvider = ({ children }) => {
         updateUser,
         imageUrl: auth?.imageUrl || DEFAULT_AVATAR,
         error,
-        setError
+        clearError,
+        deleteAccountHandler,
     };
 
     return (

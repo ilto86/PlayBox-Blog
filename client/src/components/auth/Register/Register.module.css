@@ -77,4 +77,15 @@
     color: #e74c3c;
     margin-bottom: 1rem;
     text-align: center;
+}
+
+.inputError {
+    border: 1px solid #e74c3c !important;
+}
+
+.errorMessage {
+    color: #e74c3c;
+    font-size: 0.8rem;
+    margin-top: -5px;
+    margin-bottom: 10px;
 } 
