@@ -1,6 +1,5 @@
 import * as request from '../lib/request';
 import { API, BASE_URL } from '../utils/pathUtils';
-import * as profileService from './profileService';
 import * as consoleService from './consoleService';
 
 export const login = async (email, password) => {
@@ -9,6 +8,7 @@ export const login = async (email, password) => {
             email,
             password,
         });
+
         localStorage.setItem('auth', JSON.stringify(result));
         return result;
     } catch (error) {
@@ -69,7 +69,6 @@ export const deleteAccount = async () => {
         
         console.log('Starting account deletion process for user:', userId);
         
-        // Delete profile data
         try {
             const profiles = await request.get(API.data.profiles);
             console.log('Fetched profiles:', profiles);
@@ -86,42 +85,67 @@ export const deleteAccount = async () => {
             }
         } catch (profileError) {
             console.error('Error deleting profile:', profileError);
-            // Continue with deletion of other data
         }
         
-        // Delete consoles - FIX: Corrected variable name from 'console' to 'userConsole'
         try {
             const userConsoles = await consoleService.getUserConsoles(userId);
             console.log('User consoles:', userConsoles);
             
             if (userConsoles?.length > 0) {
-                for (const userConsole of userConsoles) {
-                    console.log('Deleting console:', userConsole._id);
-                    await consoleService.remove(userConsole._id);
+                for (const console of userConsoles) {
+                    console.log('Deleting console:', console._id);
+                    await consoleService.remove(console._id);
                 }
                 console.log('All consoles deleted successfully');
             }
         } catch (consoleError) {
             console.error('Error deleting consoles:', consoleError);
-            // Continue with account deletion
         }
         
-        // Delete user account
         console.log('Attempting to delete user account');
-        try {
-            await request.remove(`${BASE_URL}/users/me`);
-            console.log('Account deleted successfully');
-        } catch (error) {
-            console.error('Error deleting user account:', error);
-            throw new Error('Failed to delete account');
+        const response = await fetch(`${BASE_URL}/users/me`, {
+            method: 'DELETE',
+            headers: { 'X-Authorization': token }
+        });
+        
+        console.log('Delete account response status:', response.status);
+        
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Server response:', errorText);
+            throw new Error(`Failed to delete account: ${response.status}`);
         }
         
-        console.log('Logging out after successful deletion');
+        console.log('Account deleted successfully, logging out');
         await logout();
         localStorage.removeItem('auth');
         return true;
     } catch (error) {
         console.error('Account deletion failed:', error);
         throw error;
+    }
+};
+
+export const getUserProfilesByIds = async (ownerIds) => {
+    if (!ownerIds || ownerIds.length === 0) {
+        return {};
+    }
+
+    try {
+        const allProfiles = await request.get(API.data.profiles);
+
+        const authorsMap = {};
+        const ownerIdSet = new Set(ownerIds);
+
+        for (const profileId in allProfiles) {
+            const profile = allProfiles[profileId];
+            if (profile._ownerId && ownerIdSet.has(profile._ownerId)) {
+                authorsMap[profile._ownerId] = profile.username || profile.email || 'Unknown User';
+            }
+        }
+        return authorsMap;
+    } catch (error) {
+        console.error('Error fetching user profiles by IDs:', error);
+        return {};
     }
 };

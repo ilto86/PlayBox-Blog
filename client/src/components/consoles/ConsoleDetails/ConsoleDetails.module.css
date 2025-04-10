@@ -5,6 +5,7 @@
     box-shadow: 0 1px 3px rgba(0,0,0,0.08);
     max-width: 900px;
     margin: 2rem auto;
+    /* min-height: calc(100vh - 140px); */
 }
 
 .consoleInfo img {
@@ -44,7 +45,6 @@
     font-size: 1.2rem;
 }
 
-/* Стил за цената */
 .price {
     margin-top: 2rem !important;
     padding-top: 2rem !important;
@@ -61,7 +61,6 @@
     font-weight: 500;
 }
 
-/* Бутони */
 .buttons {
     display: flex;
     gap: 1rem;
@@ -94,7 +93,6 @@
     opacity: 0.9;
 }
 
-/* Стилове за различните производители */
 .manufacturerName {
     font-size: 1.5rem;
     font-weight: 400, 600, 700;
@@ -121,7 +119,6 @@
     font-family: "Quicken", sans-serif;
 }
 
-/* Стил за цветовата мостра */
 .colorInfo {
     display: flex;
     align-items: center;
@@ -140,14 +137,129 @@
     vertical-align: middle;
 }
 
-/* Специален стил за двуцветни конзоли */
 .dualColor {
     background: linear-gradient(
-        135deg, /* Променяме ъгъла за по-добър вид */
+        135deg,
         var(--color-left) 49.9%,
-        #fff 49.9%, /* Добавяме тънка бяла линия за разделител */
+        #fff 49.9%,
         #fff 50.1%,
         var(--color-right) 50.1%
     );
-    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1); /* Добавяме вътрешна сянка за по-добър вид */
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1);
+}
+
+.actionButtons {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.editButton,
+.deleteButton {
+    padding: 0.5rem 1.5rem;
+    border-radius: 4px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.editButton {
+    background-color: #3498db;
+    color: white;
+    border: none;
+}
+
+.editButton:hover {
+    background-color: #2980b9;
+}
+
+.deleteButton {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+}
+
+.deleteButton:hover {
+    background-color: #c0392b;
+}
+
+.consoleCard {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease;
+}
+
+.consoleCard:hover {
+    transform: translateY(-5px);
+}
+
+.consoleImage {
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+    background: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.consoleCardInfo {
+    padding: 1.5rem;
+}
+
+.consoleName {
+    font-size: 1.4rem;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.consoleManufacturer {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+}
+
+.consoleDetails {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+    margin-top: 1rem;
+}
+
+.consolePrice {
+    font-size: 1.2rem;
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+.viewDetailsBtn {
+    display: inline-block;
+    background: #3498db;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: opacity 0.2s;
+}
+
+.viewDetailsBtn:hover {
+    opacity: 0.9;
+}
+
+.consolesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.actionButtons {
+    display: flex;
+    align-items: center;
+    gap: 20px;
 } 

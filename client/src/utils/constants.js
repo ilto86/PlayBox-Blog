@@ -1,39 +1,13 @@
-// Общи константи за приложението
+// Аватар на профил без изображение
 export const DEFAULT_AVATAR = '/images/default-avatar.jpg';
 
-// Константи за конзоли
+// Изображение на конзолни марки за конзоли без изображение
 export const DEFAULT_CONSOLE_IMAGE = '/images/default-console.jpg';
 
+// Константи за производители на конзоли
 export const MANUFACTURERS = {
     NINTENDO: 'Nintendo',
     SONY: 'SONY',
     MICROSOFT: 'Microsoft',
     SEGA: 'SEGA'
 };
-
-export const getManufacturerClass = (manufacturer, styles) => {
-    // Създаваме обект с всички възможни варианти на изписване
-    const manufacturerVariants = {
-        // Nintendo variants
-        'nintendo': 'nintendo',
-        'NINTENDO': 'nintendo',
-        'Nintendo': 'nintendo',
-        // Sony variants
-        'sony': 'sony',
-        'SONY': 'sony',
-        'Sony': 'sony',
-        // Microsoft variants
-        'microsoft': 'microsoft',
-        'MICROSOFT': 'microsoft',
-        'Microsoft': 'microsoft',
-        // Sega variants
-        'sega': 'sega',
-        'SEGA': 'sega',
-        'Sega': 'sega'
-    };
-    
-    // Връщаме съответния клас или празен стринг, ако няма съвпадение
-    return styles[manufacturerVariants[manufacturer] || ''];
-};
-
-

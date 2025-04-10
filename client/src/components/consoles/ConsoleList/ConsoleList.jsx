@@ -1,27 +1,25 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import * as consoleService from '../../../services/consoleService';
 import styles from './ConsoleList.module.css';
 import { Link } from 'react-router-dom';
 import Spinner from '../../common/Spinner/Spinner';
-import sharedStyles from '../../../styles/shared/ConsoleCard.module.css';
-import { getManufacturerClass } from '../../../utils/constants';
 import ErrorBox from '../../common/ErrorBox/ErrorBox';
 import { DEFAULT_CONSOLE_IMAGE } from '../../../utils/constants';
-import { getManufacturerClassKey, formatManufacturerForDisplay } from '../../../utils/consoleDisplayUtils';
-
+import { getManufacturerClass, formatManufacturerForDisplay } from '../../../utils/consoleDisplayUtils';
+import LikeButton from '../../likes/LikeButton';
+import AuthContext from '../../../context/authContext';
 
 export default function ConsoleList() {
     const [consoles, setConsoles] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-
+    const { userId } = useContext(AuthContext);
 
     useEffect(() => {
         const loadConsoles = async () => {
             try {
                 const result = await consoleService.getAll();
-                console.log('Data from server:', result);
-                setConsoles(Object.values(result));
+                setConsoles(Array.isArray(result) ? result : Object.values(result || {}));
             } catch (error) {
                 console.error('Error loading consoles:', error);
                 setError('Failed to load consoles');
@@ -45,52 +43,62 @@ export default function ConsoleList() {
         <section className={styles.catalog}>
             <h1>All Gaming Consoles</h1>
             <div className={styles.consoleGrid}>
-                {consoles.map(console => {
-                    
-                    // НОВО: Форматираме името за показване
-                    const displayManufacturerName = console ? formatManufacturerForDisplay(console.manufacturer) : '';
-                    
-                    return (
+                {Array.isArray(consoles) && consoles.map((console, index) => {
 
-                        <div key={console._id} className={sharedStyles.consoleCard}>
+                    if (!console || typeof console !== 'object') {
+                        console.error(`Invalid item at index ${index}:`, console);
+                        return <div key={`error-${index}`} style={{color: 'red'}}>Invalid console data at index {index}</div>;
+                    }
+
+                    const isOwner = userId && console._ownerId ? userId === console._ownerId : false;
+                    const manufacturerClassName = getManufacturerClass(console.manufacturer, styles);
+                    const displayManufacturerName = formatManufacturerForDisplay(console.manufacturer);
+
+                    return (
+                        <div key={console._id || `console-${index}`} className={styles.consoleCard}>
                             <img 
                                 src={console.imageUrl || DEFAULT_CONSOLE_IMAGE} 
                                 alt={console.consoleName} 
-                                className={sharedStyles.consoleImage}
+                                className={styles.consoleImage}
                                 onError={(e) => {
                                     e.target.src = DEFAULT_CONSOLE_IMAGE;
                                 }}
                             />
-                            <div className={sharedStyles.consoleInfo}>
-                                <h3 className={sharedStyles.consoleName}>
+                            <div className={styles.consoleInfo}>
+                                <h3 className={styles.consoleName}>
                                     {console.consoleName}
                                 </h3>
-                                <p className={`${sharedStyles.consoleManufacturer} ${getManufacturerClass(console.manufacturer, sharedStyles)}`}>
-                                {/* <p className={`${sharedStyles.consoleManufacturer} ${manufacturerClassName}`}> */}
-                                    {/* {console.manufacturer} */}
+                                <p className={`${styles.consoleManufacturer} ${manufacturerClassName}`}>
                                     {displayManufacturerName}
                                 </p>
-                                <div className={sharedStyles.consoleDetails}>
-                                    <span className={sharedStyles.consolePrice}>
+                                <div className={styles.consoleDetails}>
+                                    <span className={styles.consolePrice}>
                                         {Number(console.price).toFixed(2)}&nbsp;€
                                     </span>
-                                    <Link 
-                                        to={`/consoles/${console._id}`} 
-                                        className={sharedStyles.viewDetailsBtn}
-                                    >
-                                        View Details
-                                    </Link>
+                                    <div className={styles.actionButtons}>
+                                        {!isOwner && (
+                                            <LikeButton
+                                                consoleId={console._id}
+                                                isOwner={isOwner}
+                                            />
+                                        )}
+                                        <Link 
+                                            to={`/consoles/${console._id}`} 
+                                            className={styles.viewDetailsBtn}
+                                        >
+                                            View Details
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    ); // Край на return за ЕЛЕМЕНТА от map
-                })}     {/* Край на map callback функцията (затваряща КЪДРАВА СКОБА '}') */}
-            </div>      {/* Край на div.consoleGrid */}
+                    );
+                })}
+            </div>
             
-            {/* Условно показване на съобщение, ако няма конзоли */}
             {consoles.length === 0 && (
                 <h3 className={styles.noConsoles}>No consoles yet</h3>
             )}  
-        </section>   // Край на section.catalog
-    );               // Край на return за целия компонент ConsoleList
+        </section>
+    );
 }       

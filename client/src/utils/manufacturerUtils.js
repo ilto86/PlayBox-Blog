@@ -1,7 +1,6 @@
 const normalizeManufacturer = (manufacturer) => {
     const normalized = manufacturer.toLowerCase();
     
-    // Map за всички възможни вариации
     const manufacturerVariations = {
         // Nintendo variations
         'nintendo': 'Nintendo',
@@ -39,5 +38,4 @@ export const getManufacturerClass = (manufacturer) => {
     return manufacturerMap[normalizedManufacturer] || '';
 };
 
-// Експортваме функцията за нормализация, за да можем да я използваме и при създаване/редактиране на конзола
 export const normalizeManufacturerName = normalizeManufacturer; 

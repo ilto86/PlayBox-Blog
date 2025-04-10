@@ -28,7 +28,7 @@ export default function Login() {
             }
             
             if (name === 'password') {
-                if (!isValidPassword(value)) {
+                if (!isValidPassword(value, values.email)) { // Проверка за админ
                     newErrors.password = 'Password must be at least 6 characters';
                 } else {
                     delete newErrors.password;
@@ -45,7 +45,7 @@ export default function Login() {
     }, null, {
         onChangeCallback: validateField
     });
-
+    
     const validateForm = () => {
         const errors = {};
         
@@ -53,10 +53,10 @@ export default function Login() {
             errors.email = 'Please enter a valid email address';
         }
         
-        if (!isValidPassword(values.password)) {
+        if (!isValidPassword(values.password, values.email)) {
             errors.password = 'Password must be at least 6 characters';
         }
-        
+
         setValidationErrors(errors);
         return Object.keys(errors).length === 0;
     };
@@ -79,7 +79,7 @@ export default function Login() {
                 navigate(returnPath, { replace: true });
             }
         } catch (err) {
-            // Грешката се обработва от useErrorHandling
+            // Грешката се хендълва от useErrorHandling
         } finally {
             setIsLoading(false);
         }

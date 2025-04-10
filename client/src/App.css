@@ -1,3 +1,15 @@
+.appContainer {
+    display: flex;
+    flex-direction: column; 
+    /* min-height: 100vh; */
+}
+
+.mainContent {
+    flex-grow: 1; 
+    /* padding-top: 120px; */
+    padding-top: 15rem;
+}
+
 header {
     background: linear-gradient(to right, #2c5282, #1a365d);
     padding: 1rem 2rem;

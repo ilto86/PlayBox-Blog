@@ -14,7 +14,7 @@ export const Path = {
     ProfileEdit: '/profile/edit',
 };
 
-// Консолидирана API структура
+// Консолидирана API структура (jsonstore - за операции без филтриране)
 export const API = {
     auth: {
         login: `${BASE_URL}/users/login`,
@@ -22,51 +22,39 @@ export const API = {
         logout: `${BASE_URL}/users/logout`,
     },
     data: {
-        // Users
+        // Users (jsonstore - може би за authService.getUserProfilesByIds?)
         profiles: `${BASE_URL}/jsonstore/profiles`,
         profile: (userId) => `${BASE_URL}/jsonstore/profiles/${userId}`,
 
-        // Consoles
+        // Consoles (jsonstore)
         consoles: `${BASE_URL}/jsonstore/consoles`,
         console: (consoleId) => `${BASE_URL}/jsonstore/consoles/${consoleId}`,
-        userConsoles: (userId) => `${BASE_URL}/jsonstore/consoles?where=_ownerId%3D%22${userId}%22`,
-        
-        // Likes
+
+        // Likes (jsonstore)
         likes: `${BASE_URL}/jsonstore/likes`,
-        consoleLikes: (consoleId) => `${BASE_URL}/jsonstore/likes?where=consoleId%3D%22${consoleId}%22`,
-        userLikes: (userId) => `${BASE_URL}/jsonstore/likes?where=userId%3D%22${userId}%22`,
-        
-        // Comments
+
+        // Comments (jsonstore)
         comments: `${BASE_URL}/jsonstore/comments`,
-        consoleComments: (consoleId) => `${BASE_URL}/jsonstore/comments?where=consoleId%3D%22${consoleId}%22`,
     }
 };
 
-// Плоска структура за лесен достъп (заменя API_Paths)
+// Плоска структура за лесен достъп (основно /data/ ендпоинти за CRUD операции с филтриране)
 export const ApiPath = {
     // Auth
     login: API.auth.login,
     register: API.auth.register,
     logout: API.auth.logout,
-    
-    // Profiles
-    profiles: API.data.profiles,
-    profile: API.data.profile,
-    
-    // Consoles
+
+    // Consoles (пътища към data)
     consoles: API.data.consoles,
     console: API.data.console,
-    userConsoles: API.data.userConsoles,
-    
-    // Likes
-    likes: API.data.likes,
-    consoleLikes: API.data.consoleLikes,
-    userLikes: API.data.userLikes,
-    
-    // Comments
-    comments: API.data.comments,
-    consoleComments: API.data.consoleComments,
+
+    // Likes (пътища към data )
+    likes: `${BASE_URL}/data/likes`,
+
+    // Comments (пътища към /data/comments за CRUD и филтриране)
+    comments: `${BASE_URL}/data/comments`,
 };
 
-// За обратна съвместимост - ще бъде премахнато в бъдеща версия
+// За обратна съвместимост за API_Paths
 export const API_Paths = ApiPath; 

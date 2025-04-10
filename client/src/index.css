@@ -23,3 +23,8 @@ body {
     --text-color: #333;
     --border-color: #e2e8f0;
 }
+
+
+html, body, #root {
+    height: 100%;
+}

@@ -2,6 +2,7 @@
     max-width: 1200px;
     margin: 2rem auto;
     padding: 0 1rem;
+    min-height: calc(100vh - 140px);
 }
 
 .userInfo {
@@ -156,11 +157,36 @@
     text-align: center;
 }
 
+.consolesContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
 .consolesGrid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 2rem;
-    padding: 1rem;
+}
+
+.addConsoleBtnWrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.addConsoleBtn {
+    display: inline-block;
+    background: #2980b9;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: opacity 0.2s;
+}
+
+.addConsoleBtn:hover {
+    opacity: 0.9;
 }
 
 /* Стилове за различните производители */
@@ -248,7 +274,6 @@
     margin: 0.5rem 0;
 }
 
-/* Стилове за формата за редактиране */
 .editForm {
     margin: 1rem 0;
 }
@@ -287,7 +312,6 @@
     background: #e74c3c;
 }
 
-/* Бутони за Edit/Delete на конзолата */
 .editBtn {
     background: #3498db;
     color: white;
@@ -343,7 +367,6 @@
     background-color: #5a6268;
 }
 
-/* Премахваме hover ефектите и сенките за по-изчистен вид */
 .editBtn:hover,
 .deleteBtn:hover,
 .viewDetailsBtn:hover,
@@ -352,7 +375,6 @@
     opacity: 0.9;
 }
 
-/* Input полета */
 .editInput {
     width: 100%;
     max-width: 250px;
@@ -363,7 +385,6 @@
     font-size: 14px;
 }
 
-/* Общ базов стил за бутоните в профила */
 .profileButton {
     padding: 8px 16px;
     border: none;
@@ -378,14 +399,12 @@
     opacity: 0.9;
 }
 
-/* Стил за бутона за редактиране */
 .editUsernameBtn {
     composes: profileButton;
     background: #3498db;
     color: white;
 }
 
-/* Стил за бутона за изтриване */
 .deleteBtn {
     composes: profileButton;
     background-color: #dc3545;
@@ -395,7 +414,6 @@
     align-self: center;
 }
 
-/* Модален прозорец */
 .modalOverlay {
     position: fixed;
     top: 0;
@@ -479,7 +497,6 @@
     background-color: #c82333;
 }
 
-/* Базови стилове за бутони */
 .button {
     padding: 8px 16px;
     border: none;
@@ -494,7 +511,6 @@
     opacity: 0.9;
 }
 
-/* Вариации на бутоните */
 .primaryButton {
     composes: button;
     background-color: #3498db;
@@ -521,7 +537,6 @@
     background-color: #5a6268;
 }
 
-/* Специфични бутони */
 .editUsernameBtn {
     composes: primaryButton;
 }
@@ -558,7 +573,6 @@
     composes: secondaryButton;
 }
 
-/* Контейнери за бутони */
 .btnContainer {
     display: flex;
     justify-content: flex-end;
@@ -578,7 +592,6 @@
     gap: 1rem;
 }
 
-/* Форми и инпути */
 .editInput {
     width: 100%;
     max-width: 250px;
@@ -593,7 +606,6 @@
     margin: 1rem 0;
 }
 
-/* Текстови стилове */
 .username {
     font-size: 1.5rem;
     color: #333;
@@ -610,7 +622,6 @@
     font-weight: bold;
 }
 
-/* Модален прозорец */
 .modalOverlay {
     position: fixed;
     top: 0;
@@ -645,175 +656,52 @@
     color: #666;
 }
 
-.deleteButton {
-    composes: dangerButton;
-    margin-top: 1rem;
+.consoleHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
 }
 
-/* Премахваме .deleteButton:hover, тъй като се наследява от dangerButton:hover */
-
-/* Базови стилове за бутони */
-.button {
-    padding: 8px 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 600;
-    transition: opacity 0.2s ease;
+.addConsoleBtn {
+    display: block;
+    background: #2980b9;
+    color: white;
+    padding: 0.8rem 2rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 1rem;
+    text-align: center;
+    width: auto;
+    max-width: 200px;
+    margin: 2rem auto;
+    transition: opacity 0.2s;
 }
 
-.button:hover {
+.addConsoleBtn:hover {
     opacity: 0.9;
 }
 
-/* Вариации на бутоните */
-.primaryButton {
-    composes: button;
-    background-color: #3498db;
-    color: white;
-}
-
-.dangerButton {
-    composes: button;
-    background-color: #dc3545;
-    color: white;
-}
-
-.dangerButton:hover {
-    background-color: #c82333;
-}
-
-.secondaryButton {
-    composes: button;
-    background-color: #6c757d;
-    color: white;
-}
-
-.secondaryButton:hover {
-    background-color: #5a6268;
-}
-
-/* Специфични бутони */
-.editUsernameBtn {
-    composes: primaryButton;
-}
-
-.deleteButton {
-    composes: dangerButton;
-    margin-top: 1.5rem;
-    width: fit-content;
-    align-self: center;
-}
-
-.cancelBtn {
-    composes: secondaryButton;
-}
-
-.saveBtn {
-    composes: primaryButton;
-}
-
-.editBtn {
-    composes: primaryButton;
-    margin-right: 10px;
-}
-
-.deleteBtn {
-    composes: dangerButton;
-}
-
-.confirmButton {
-    composes: dangerButton;
-}
-
-.cancelButton {
-    composes: secondaryButton;
-}
-
-/* Контейнери за бутони */
-.btnContainer {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
-    margin-top: 1rem;
-}
-
-.editButtons {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-}
-
-.modalButtons {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-}
-
-/* Форми и инпути */
-.editInput {
+.addConsoleBtnLarge {
+    grid-column: 1 / -1;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
     width: 100%;
-    max-width: 250px;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-bottom: 10px;
-    font-size: 14px;
-}
-
-.editForm {
-    margin: 1rem 0;
-}
-
-/* Текстови стилове */
-.username {
-    font-size: 1.5rem;
-    color: #333;
-    margin: 0.5rem 0;
-}
-
-.email {
-    color: #666;
-    margin: 0.5rem 0;
-}
-
-.warningText {
-    color: #dc3545;
-    font-weight: bold;
-}
-
-/* Модален прозорец */
-.modalOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.modal {
-    background-color: white;
-    padding: 2rem;
-    border-radius: 8px;
-    width: 400px;
-    max-width: 90%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
+    margin-top: 2rem;
 }
 
-.modal h3 {
-    margin-top: 0;
-    color: #333;
-    font-size: 1.5rem;
+.viewDetailsBtn {
+    display: inline-block;
+    background: #3498db;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: opacity 0.2s;
 }
 
-.modal p {
-    margin-bottom: 1.5rem;
-    color: #666;
+.viewDetailsBtn:hover {
+    opacity: 0.9;
 } 

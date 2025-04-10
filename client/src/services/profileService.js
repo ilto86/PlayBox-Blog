@@ -26,10 +26,8 @@ export const remove = async (profileId) => {
     return result;
 };
 
-// Специфични методи за профила
 export const getProfile = async (userId) => {
     try {
-        // Първо опитваме да вземем профила от profiles
         const profiles = await request.get(API.data.profiles);
         const profile = Object.values(profiles).find(p => p._ownerId === userId);
         return profile;
@@ -41,12 +39,10 @@ export const getProfile = async (userId) => {
 
 export const updateProfile = async (userId, profileData) => {
     try {
-        // Първо проверяваме дали профилът съществува
         const profiles = await request.get(API.data.profiles);
         const existingProfile = Object.values(profiles).find(p => p._ownerId === userId);
 
         if (existingProfile) {
-            // Ако съществува, обновяваме го
             const result = await request.put(`${API.data.profiles}/${existingProfile._id}`, {
                 ...existingProfile,
                 ...profileData,
@@ -54,7 +50,6 @@ export const updateProfile = async (userId, profileData) => {
             });
             return result;
         } else {
-            // Ако не съществува, създаваме нов
             const result = await request.post(API.data.profiles, {
                 ...profileData,
                 _ownerId: userId
@@ -107,16 +102,13 @@ export const createProfile = async (userId, profileData) => {
     }
 };
 
-// Добавяме метод за изтриване на профил по userId
 export const removeProfileByUserId = async (userId) => {
     try {
-        // Първо намираме профила по userId
         const profiles = await request.get(API.data.profiles);
         const profileEntry = Object.entries(profiles).find(([_, profile]) => profile._ownerId === userId);
         
         if (profileEntry) {
             const [profileId, _] = profileEntry;
-            // Изтриваме профила
             await request.remove(`${API.data.profiles}/${profileId}`);
             console.log(`Profile with ID ${profileId} deleted successfully`);
             return true;

@@ -149,6 +149,18 @@ export default function CreateConsole() {
                     </div>
 
                     <div className={styles.formGroup}>
+                        <label htmlFor="price">Price:</label>
+                        <input
+                            type="number"
+                            id="price"
+                            name="price"
+                            value={values.price}
+                            onChange={onChange}
+                            disabled={isCreating}
+                        />
+                    </div>  
+
+                    <div className={styles.formGroup}>
                         <label htmlFor="imageUrl">Image URL:</label>
                         <input 
                             type="text" 
@@ -163,7 +175,7 @@ export default function CreateConsole() {
                     <input 
                         className={styles.btnSubmit} 
                         type="submit" 
-                        value={isCreating ? "Creating..." : "Create Console"}
+                        value={isCreating ? 'Creating...' : 'Create Console'}
                         disabled={isCreating}
                     />
                 </div>
