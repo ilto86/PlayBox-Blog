@@ -1,12 +1,12 @@
-import { useState, useEffect, useRef } from 'react';
-import { useAuthContext } from '../../../context/authContext';
+import { useState, useEffect, useContext, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuthContext, AuthContext } from '../../../context/authContext';
 import * as consoleService from '../../../services/consoleService';
 import * as profileService from '../../../services/profileService';
 import Spinner from '../../common/Spinner/Spinner';
 import ErrorBox from '../../common/ErrorBox/ErrorBox';
 import styles from './Profile.module.css';
 import sharedStyles from '../../consoles/ConsoleDetails/ConsoleDetails.module.css';
-import { Link, useNavigate } from 'react-router-dom';
 import { Path } from '../../../utils/pathUtils';
 import { DEFAULT_AVATAR, DEFAULT_CONSOLE_IMAGE } from '../../../utils/constants';
 import { useErrorHandling } from '../../../hooks/useErrorHandling';
@@ -14,8 +14,7 @@ import Modal from '../../common/Modal/Modal';
 import * as authService from '../../../services/authService';
 import LikeButton from '../../likes/LikeButton';
 import { getManufacturerClass, formatManufacturerForDisplay } from '../../../utils/consoleDisplayUtils';
-import AuthContext from '../../../context/authContext';
-import { useContext } from 'react';
+
 
 // Helper function to validate image URLs
 const getValidImageUrl = (url) => {
@@ -38,6 +37,7 @@ export default function Profile() {
     });
     const [userConsoles, setUserConsoles] = useState([]);
     const [isEditingUsername, setIsEditingUsername] = useState(false);
+    const [originalUsernameBeforeEdit, setOriginalUsernameBeforeEdit] = useState('');
     const [isEditingImage, setIsEditingImage] = useState(false);
     const [newImageUrl, setNewImageUrl] = useState('');
     const [isLoading, setIsLoading] = useState(true);
@@ -84,10 +84,17 @@ export default function Profile() {
     }, [authUserId, authUsername, authImageUrl, executeWithErrorHandling, setComponentError]);
 
     // Handlers for editing username
-    const handleEditUsername = () => setIsEditingUsername(true);
-    const handleCancelEditUsername = () => setIsEditingUsername(false);
+    const handleEditUsername = () => {
+        setOriginalUsernameBeforeEdit(profileData.username);
+        setIsEditingUsername(true);
+    };
+    const handleCancelEditUsername = () => {
+        setProfileData(prev => ({ ...prev, username: originalUsernameBeforeEdit }));
+        setIsEditingUsername(false);
+        setOriginalUsernameBeforeEdit('');
+    };
     const handleSaveUsername = async () => {
-        if(!profileData.username || isSaving) {
+        if (!profileData.username || isSaving) {
             return;
         }
         setIsSaving(true);
@@ -97,6 +104,7 @@ export default function Profile() {
             await profileService.updateProfile(authUserId, { username: profileData.username });
             await updateUser({ username: profileData.username });
             setIsEditingUsername(false);
+            setOriginalUsernameBeforeEdit('');
         }, { errorPrefix: 'Failed to update username' });
 
         setIsSaving(false);

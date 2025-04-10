@@ -9,7 +9,7 @@ import * as profileService from '../services/profileService';
 import { Path } from '../utils/pathUtils';
 import { DEFAULT_AVATAR } from '../utils/constants';
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
 const formatUsername = (email) => email?.split('@')[0] || 'User';
 

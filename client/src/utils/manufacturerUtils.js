@@ -1,4 +1,8 @@
 const normalizeManufacturer = (manufacturer) => {
+    if (!manufacturer) {
+        return '';
+    }
+
     const normalized = manufacturer.toLowerCase();
     
     const manufacturerVariations = {
