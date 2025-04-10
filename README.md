@@ -85,38 +85,38 @@ A web application for console collectors, enabling users to manage their persona
 
 ### **Home Page**
 *Description:* The first page users see.
-![Home-Page](.././client/public/project-images/Home-Page.png)
+![Home-Page](./project-images/Home-Page.png)
 
 ### **Registration/Login**
 *Description:* Forms for user registration and login.
-![Register-Page](.././client/public/project-images/Register-Page.png)
-![Login-Page](.././client/public/project-images/Login-Page.png)
+![Register-Page](./project-images/Register-Page.png)
+![Login-Page](./project-images/Login-Page.png)
 
 ### **User Profile**
 *Description:* The profile page displaying user information and their consoles.
-![Profile-Page](.././client/public/project-images/Profile-Page-without-consoles.png)
-![Profile-Page](.././client/public/project-images/Profile-Page-with-consoles.png)
+![Profile-Page](./project-images/Profile-Page-without-consoles.png)
+![Profile-Page](./project-images/Profile-Page-with-consoles.png)
 
 ### **Console Catalog**
 *Description:* A list of all consoles.
-![Catalog-Page](.././client/public/project-images/Catalog-Page.png)
+![Catalog-Page](./project-images/Catalog-Page.png)
 
 ### **Console Details**
 *Description:* Detailed information about a specific console.
-![Console-Details-Page](.././client/public/project-images/Console-Details-Page-1.png)
-![Console-Details-Page](.././client/public/project-images/Console-Details-Page-2.png)
+![Console-Details-Page](./project-images/Console-Details-Page-1.png)
+![Console-Details-Page](./project-images/Console-Details-Page-2.png)
 
 ### **Add Console**
 *Description:* Form for adding a console.
-![Add-Console-Page](.././client/public/project-images/Add-Console-Page-1.png)
-![Add-Console-Page](.././client/public/project-images/Add-Console-Page-2.png)
+![Add-Console-Page](./project-images/Add-Console-Page-1.png)
+![Add-Console-Page](./project-images/Add-Console-Page-2.png)
 
 ### **Edit Console**
 *Description:* Form for editing a console.
-![Edit-Console-Page](.././client/public/project-images/Edit-Console-Page-1.png)
-![Edit-Console-Page](.././client/public/project-images/Edit-Console-Page-2.png)
+![Edit-Console-Page](./project-images/Edit-Console-Page-1.png)
+![Edit-Console-Page](./project-images/Edit-Console-Page-2.png)
 
 
 ### **Delete Console**
 *Description:* Confirmation dialog for deleting a console.
-![Delete-Console-Page](.././client/public/project-images/Delete-Console-Page.png)
+![Delete-Console-Page](./project-images/Delete-Console-Page.png)
