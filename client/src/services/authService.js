@@ -1,6 +1,7 @@
 import * as request from '../lib/request';
 import { API, BASE_URL } from '../utils/pathUtils';
 import * as consoleService from './consoleService';
+import { getToken, clearUserData } from './authService';
 
 export const login = async (email, password) => {
     try {
@@ -58,70 +59,17 @@ export const getCurrentUser = async (token) => {
 };
 
 export const deleteAccount = async () => {
-    try {
-        const auth = JSON.parse(localStorage.getItem('auth') || '{}');
-        const userId = auth._id;
-        const token = auth.accessToken;
-        
-        if (!userId || !token) {
-            throw new Error('User not found or not authenticated');
+    const response = await fetch(`${BASE_URL}/users/me`, {
+        method: 'DELETE',
+        headers: {
+            'X-Authorization': getToken()
         }
-        
-        console.log('Starting account deletion process for user:', userId);
-        
-        try {
-            const profiles = await request.get(API.data.profiles);
-            console.log('Fetched profiles:', profiles);
-            
-            const profileEntry = Object.entries(profiles).find(([_, profile]) => profile._ownerId === userId);
-            
-            if (profileEntry) {
-                const [profileId] = profileEntry;
-                console.log('Found profile to delete:', profileId);
-                await request.remove(`${API.data.profiles}/${profileId}`);
-                console.log('Profile deleted successfully');
-            } else {
-                console.log('No profile found for this user');
-            }
-        } catch (profileError) {
-            console.error('Error deleting profile:', profileError);
-        }
-        
-        try {
-            const userConsoles = await consoleService.getUserConsoles(userId);
-            console.log('User consoles:', userConsoles);
-            
-            if (userConsoles?.length > 0) {
-                for (const console of userConsoles) {
-                    console.log('Deleting console:', console._id);
-                    await consoleService.remove(console._id);
-                }
-                console.log('All consoles deleted successfully');
-            }
-        } catch (consoleError) {
-            console.error('Error deleting consoles:', consoleError);
-        }
-        
-        console.log('Attempting to delete user account');
-        const response = await fetch(`${BASE_URL}/users/me`, {
-            method: 'DELETE',
-            headers: { 'X-Authorization': token }
-        });
-        
-        console.log('Delete account response status:', response.status);
-        
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error('Server response:', errorText);
-            throw new Error(`Failed to delete account: ${response.status}`);
-        }
-        
-        console.log('Account deleted successfully, logging out');
-        await logout();
-        localStorage.removeItem('auth');
-        return true;
-    } catch (error) {
-        console.error('Account deletion failed:', error);
+    });
+
+    if (response.ok) {
+        clearUserData();
+    } else {
+        const error = await response.json();
         throw error;
     }
 };
